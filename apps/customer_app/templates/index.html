@@ -39,7 +39,7 @@
       <div class="">
         <ul>
           {% for category in categories %}
-            <li><a href="{% url 'browse' category_name=category.name %}">{{category.name}}</a></li>
+            <li><a href="{% url 'browse' category_name=category.name current_page=1 %}">{{category.name}}</a></li>
           {% endfor %}
           <li></li>
         </ul>

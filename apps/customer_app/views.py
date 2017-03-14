@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from .models import Category, Product, Image
-import os
+import os, math
 
 # Create your views here.
 def index(request):
@@ -20,7 +20,7 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-def browse(request, category_name):
+def browse(request, category_name, current_page):
     if 'logged_user' not in request.session:
         logged_user = 0
     else:
@@ -28,9 +28,14 @@ def browse(request, category_name):
     # print(logged_user)
     category = Category.objects.get(name = category_name)
     products = Product.objects.filter(category = category)
+    page_size = 15
+    product_start = (int(current_page)-1)*page_size
+    product_end = (int(current_page))*page_size
+    max_pages = math.ceil(len(products)/page_size)
+    products_out = Product.objects.filter(category = category).filter(ongoing = True)[product_start:product_end]
     context = {
         'logged_user': logged_user,
-        'products': products
+        'products': products_out
     }
     return render(request, 'browse.html', context)
 
