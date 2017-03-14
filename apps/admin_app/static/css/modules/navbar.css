@@ -1,0 +1,47 @@
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  /*width: 64px;*/
+  /*background-color: green;*/
+}
+
+nav li {
+  float: right;
+}
+
+nav li a {
+  display: block;
+  text-align: center;
+  padding: 14px 14px;
+  text-decoration: none;
+}
+
+nav li a span {
+  line-height: 0;
+  font-size: 0;
+  color: transparent;
+}
+
+nav li a:hover span{
+  /*background-color: green;*/
+  /*line-height: 32px;*/
+  font-size: 12px;
+  color: black;
+  text-decoration: none;
+}
+
+nav p {
+  line-height: 0;
+  font-size: 0;
+  color: transparent;
+}
+
+/*nav p {
+  line-height: 0;
+  font-size: 0;
+  color: transparent;
+}*/

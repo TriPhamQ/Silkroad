@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>User Dashboard</title>
+  </head>
+  <body>
+    <div class="nav">
+        <nav>
+					<div class="nav-wrapper brown darken-4">
+						<a href="/" class="brand-logo center">Silkroad</a>
+              {% if logged_user == 1%}
+    						<ul class="left">
+    							<li><a href="/admin">Admin</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user != 1 and logged_user != 0 %}
+    						<ul class="left">
+    							<li><a href="/user">User Dashboard</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user != 0 %}
+    						<ul class="right">
+    							<li><a href="{%url 'signout' %}">Log out</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user == 0 %}
+    						<ul class="right">
+    							<li><a href="{%url 'login_registration' %}">Log In</a></li>
+    						</ul>
+              {% endif %}
+					</div>
+        </nav>
+    </div>
+  </body>
+</html>

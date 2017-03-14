@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Products Manager</title>
+		{% load staticfiles %}
+		<link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/d/d1/Toad_3D_Land.png">
+		<!-- Custom CSS -->
+    <!-- <link rel="stylesheet" href="static/css/main.css"> -->
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> -->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<!-- <link type="text/css" rel='stylesheet' href="{% static 'css/materialize.css'%}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'js/jquery.min.js'%}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="{% static 'js/materialize.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/clone.js'%}"></script> -->
+	</head>
+	<body>
+		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+    <!-- Navbar -->
+    <div class="nav">
+        <nav>
+					<div class="nav-wrapper brown darken-4">
+						<a href="/" class="brand-logo center">Silkroad</a>
+						<ul class="left">
+							<li><a href="/admin">Home</a></li>
+							<li><a href="/products">Manage products</a></li>
+							<li><a href="/orders">Manage orders</a></li>
+						</ul>
+						<ul class="right">
+							<li><a href="{%url 'signout' %}">Log out</a></li>
+						</ul>
+					</div>
+        </nav>
+    </div>
+		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+		<!-- Edit Product -->
+		<div class="">
+			<form class="" action="{% url 'submit_edited_product' product_id=product.id %}" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<fieldset>
+					<legend>Add product</legend>
+					<div class="input-field col s12">
+						<span>Name: </span>
+						<input type="text" placeholder="{{product.name}}" name="product_name">
+					</div>
+					<div class="input-field col s12">
+						<span>Description: </span>
+						<textarea id="product_desc" placeholder="{{product.description}}" class="materialize-textarea" name="product_description"></textarea>
+					</div>
+					<div class="input-field col s12">
+						<span>Category: </span>
+						<select class="icons browser-default" name="product_category">
+							<option value="default">Choose your option</option>
+							{% for category in categories %}
+								<option value="{{category.name}}" data-icon="" class="left circle">{{category.name}}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="input-field col s12">
+						<input type="text" placeholder="Or new category" name="product_new_category">
+					</div>
+					<div class="input-field col s12">
+						<span>Price: </span>
+						<input type="number" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" placeholder="Product Price" name="product_price">
+					</div>
+					<div class="input-field col s12">
+						<span>Inventory: </span>
+						<input type="number" step="1" placeholder="Product Inventory" name="product_inventory">
+					</div>
+					<div class="file-field input-field">
+						<div class="btn brown darken-4">
+							<span>Main Image: </span>
+							<input type="file" name="image_file_main" accept="image/*">
+						</div>
+						<!-- <div class="file-path-wrapper">
+			        <input class="file-path validate" type="text">
+			      </div> -->
+					</div>
+					<div class="file-field input-field">
+						<div class="btn brown darken-4">
+							<span>Extra Image: </span>
+							<input type="file" name="image_file" accept="image/*" multiple>
+						</div>
+						<!-- <div class="file-path-wrapper">
+			        <input class="file-path validate" type="text">
+			      </div> -->
+					</div>
+					<div class="">
+						<div class="">
+							<p>Old Main Image</p>
+							{% for image in product.imageofproduct.all %}
+								{% if image.main == True %}
+									<img src="{{image.image.url}}" height="100" width="100" alt="">
+								{% endif %}
+							{% endfor %}
+						</div>
+						<div class="">
+							<p>Old Extra Images</p>
+							{% for image in product.imageofproduct.all %}
+								{% if image.main == False %}
+									<img src="{{image.image.url}}" height="100" width="100" alt="">
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+					<input class="btn waves-effect waves-light brown darken-4" type="submit" name="" value="Confirm Changes to Product">
+				</fieldset>
+			</form>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#product_desc').val('New Text');
+				$('#product_desc').trigger('autoresize');
+				$('select').material_select();
+			});
+		</script>
+	</body>
+</html>

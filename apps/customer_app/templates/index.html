@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Homepage</title>
+  </head>
+  <body>
+    <h1>This is the homepage</h1>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+    <!-- Navbar -->
+    <div class="nav">
+        <nav>
+					<div class="nav-wrapper brown darken-4">
+						<a href="/" class="brand-logo center">Silkroad</a>
+              {% if logged_user == 1%}
+    						<ul class="left">
+    							<li><a href="/admin">Admin</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user != 1 and logged_user != 0 %}
+    						<ul class="left">
+    							<li><a href="/user">User Dashboard</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user != 0 %}
+    						<ul class="right">
+    							<li><a href="{%url 'signout' %}">Log out</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user == 0 %}
+    						<ul class="right">
+    							<li><a href="{%url 'login_registration' %}">Log In</a></li>
+    						</ul>
+              {% endif %}
+					</div>
+        </nav>
+    </div>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+		<!-- View Product -->
+    <h3>Ongoing Product:</h3>
+    <table class="bordered striped highlight">
+      <thead>
+        <tr>
+          <th>Main Image</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Extra Images</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          {% if product.ongoing == True %}
+            <td>
+            {% for image in product.imageofproduct.all %}
+              {% if image.main == True %}
+                <img src="{{image.image.url}}" height="100" width="100" alt="">
+              {% endif %}
+            {% endfor %}
+            </td>
+            <td>{{product.name}}</td>
+            <td>{{product.description}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.inventory}}</td>
+            <td>
+            {% for image in product.imageofproduct.all %}
+              {% if image.main == False %}
+                <img src="{{image.image.url}}" height="100" width="100" alt="">
+              {% endif %}
+            {% endfor %}
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
