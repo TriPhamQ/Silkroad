@@ -5,6 +5,7 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^$', views.index, name = 'index'),
+    url(r'^browse/(?P<category_name>[\w\-]+)$', views.browse, name = 'browse'),
     url(r'^user$', views.user, name = 'user')
 ]
 

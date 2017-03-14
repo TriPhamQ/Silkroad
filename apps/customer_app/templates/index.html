@@ -5,7 +5,6 @@
     <title>Homepage</title>
   </head>
   <body>
-    <h1>This is the homepage</h1>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
     <!-- Navbar -->
     <div class="nav">
@@ -24,17 +23,27 @@
               {% endif %}
               {% if logged_user != 0 %}
     						<ul class="right">
-    							<li><a href="{%url 'signout' %}">Log out</a></li>
+    							<li><a href="{% url 'signout' %}">Log out</a></li>
     						</ul>
               {% endif %}
               {% if logged_user == 0 %}
     						<ul class="right">
-    							<li><a href="{%url 'login_registration' %}">Log In</a></li>
+    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
     						</ul>
               {% endif %}
 					</div>
         </nav>
     </div>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+		<!-- Category Nav -->
+      <div class="">
+        <ul>
+          {% for category in categories %}
+            <li><a href="{% url 'browse' category_name=category.name %}">{{category.name}}</a></li>
+          {% endfor %}
+          <li></li>
+        </ul>
+      </div>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- View Product -->
     <h3>Ongoing Product:</h3>
