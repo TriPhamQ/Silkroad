@@ -31,7 +31,7 @@ def products(request):
                 'products': products,
                 'images': images
             }
-            print(context)
+            # print(context)
             return render(request, 'products.html', context)
         else:
             return redirect('/')
@@ -92,13 +92,19 @@ def restart_sale_product(request, product_id):
     return redirect(reverse('products'))
 
 def edit_product(request, product_id):
-    product = Product.objects.get(id = product_id)
-    categories = Category.objects.all()
-    context = {
-        'categories': categories,
-        'product': product
-    }
-    return render(request, 'edit-product.html', context)
+    if 'logged_user' not in request.session:
+        return redirect('/')
+    else:
+        if request.session['logged_user'] == 1:
+            product = Product.objects.get(id = product_id)
+            categories = Category.objects.all()
+            context = {
+                'categories': categories,
+                'product': product
+            }
+            return render(request, 'edit-product.html', context)
+        else:
+            return redirect('/')
 
 def submit_edited_product(request, product_id):
     print("New Main Image File HERE:", request.FILES)
