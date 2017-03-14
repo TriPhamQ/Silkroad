@@ -11,7 +11,7 @@ def login_registration(request):
         return render(request, 'login_registration.html')
     else:
         print("Already logged in")
-        return render(request, 'login_registration.html')
+        return redirect('/admin')
 
 def register(request):
     print("Register")
@@ -35,7 +35,15 @@ def login(request):
     user = User.objects.login(request.POST)
     if user:
         request.session['logged_user'] = user.id
-        return redirect('/login_registration')
+        if user.id == 1:
+            return redirect('/admin')
+        else:
+            return redirect('/')
     else:
         messages.error(request, "Invalid login")
         return redirect('/login_registration')
+
+def clear_user(request):
+    User.objects.all().delete()
+    print("delete all user")
+    return redirect('/')

@@ -3,13 +3,14 @@
     <head>
         <meta charset="utf-8">
         <title>Log in and Registration Page</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+        <link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/d/d1/Toad_3D_Land.png">
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> -->
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
         <div class="container">
             <h1>Log in and Registration</h1>
-            <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+            <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
             <!-- Register -->
             <div class="row">
                 <form class="" action="{%url 'register' %}" method="POST">
@@ -31,11 +32,11 @@
                         <div class="input-field col s12 m6 l6">
             				<input type="password" placeholder="Confirm Password" name="password_confirmation">
                         </div>
-                        <input class="btn waves-effect waves-light deep-purple darken-1" type="submit" name="" value="Register">
+                        <input class="btn waves-effect waves-light brown darken-4" type="submit" name="" value="Register">
                     </fieldset>
                 </form>
             </div>
-            <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+            <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
             <!-- Log in -->
             <div class="row">
                 <form class="" action="{%url 'login' %}" method="POST">
@@ -48,11 +49,11 @@
                         <div class="input-field col s12">
         				    <input type="password" placeholder="Password" name="password">
                         </div>
-        				<input class="btn waves-effect waves-light deep-purple darken-1" type="submit" name="" value="Log In">
+        				<input class="btn waves-effect waves-light brown darken-4" type="submit" name="" value="Log In">
                     </fieldset>
                 </form>
             </div>
-            <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+            <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
             <!-- Errors -->
             <div class="row">
                 {% if messages %}
@@ -63,6 +64,14 @@
         		</ul>
         		{% endif %}
             </div>
+            <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+        		<!-- Clear DB -->
+        		<div class="">
+        			<form class="" action="{% url 'clear_user' %}" method="post">
+        				{% csrf_token %}
+        				<input class="btn waves-effect waves-light brown darken-4" type="submit" name="" value="Clear User Database">
+        			</form>
+        		</div>
         </div>
     </body>
 </html>
