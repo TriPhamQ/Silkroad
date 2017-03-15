@@ -61,26 +61,24 @@
       <tbody>
         {% for product in products %}
         <tr>
-          {% if product.ongoing == True %}
-            <td>
-            {% for image in product.imageofproduct.all %}
-              {% if image.main == True %}
-                <img src="{{image.image.url}}" height="100" width="100" alt="">
-              {% endif %}
-            {% endfor %}
-            </td>
-            <td>{{product.name}}</td>
-            <td>{{product.description}}</td>
-            <td>{{product.price}}</td>
-            <td>{{product.inventory}}</td>
-            <td>
-            {% for image in product.imageofproduct.all %}
-              {% if image.main == False %}
-                <img src="{{image.image.url}}" height="100" width="100" alt="">
-              {% endif %}
-            {% endfor %}
-            </td>
+          <td>
+          {% for image in product.imageofproduct.all %}
+            {% if image.main == True %}
+              <img src="{{image.image.url}}" height="100" width="100" alt="">
             {% endif %}
+          {% endfor %}
+          </td>
+          <td>{{product.name}}</td>
+          <td>{{product.description}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.inventory}}</td>
+          <td>
+          {% for image in product.imageofproduct.all %}
+            {% if image.main == False %}
+              <img src="{{image.image.url}}" height="100" width="100" alt="">
+            {% endif %}
+          {% endfor %}
+          </td>
         </tr>
         {% endfor %}
       </tbody>

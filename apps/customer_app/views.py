@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from .models import Category, Product, Image
+from .models import Category, Product, Image, Cart, Order, OrderProduct, BillingAddress, ShippingAddress
 import os, math
 
 # Create your views here.
@@ -10,7 +10,7 @@ def index(request):
         logged_user = request.session['logged_user']
     # print(logged_user)
     categories = Category.objects.all()
-    products = Product.objects.all().order_by('category')
+    products = Product.objects.filter(ongoing = True).order_by('category')
     images = Image.objects.all()
     context = {
         'logged_user': logged_user,
