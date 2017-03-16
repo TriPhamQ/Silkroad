@@ -9,7 +9,7 @@
     <!-- Navbar -->
     <div class="nav">
         <nav>
-					<div class="nav-wrapper brown darken-4">
+					<div class="">
 						<a href="/" class="brand-logo center">Silkroad</a>
               {% if logged_user == 1%}
     						<ul class="left">
@@ -75,7 +75,12 @@
                 <form class="" action="{% url 'change_quantity' product_id=item.product.id%}" method="post">
                   {% csrf_token %}
                   <div class="">
-                    <span style="color:red">{{item.quantity}}</span> <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity">
+                    {% if item.product.ongoing == True %}
+                      <span style="color:red">{{item.quantity}}</span> <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity">
+                    {% endif %}
+                    {% if item.product.ongoing == False %}
+                      <span>{{item.quantity}}</span> <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity">
+                    {% endif %}
                   </div>
                   <input type="submit" name="" value="Change">
                 </form>
@@ -127,6 +132,57 @@
     <div class="">
       <form class="" action="" method="post">
         {% csrf_token %}
+        <fieldset>
+          <legend>Payment Infomation</legend>
+          <div class="">
+            Name on Card: <input type="text" name="pay_name">
+          </div>
+          <div class="">
+            Card Number: <input type="number" name="pay_card_number">
+          </div>
+          <div class="">
+            SVC: <input type="number" name="pay_card_svc">
+          </div>
+          <div class="">
+            Expiring Date: <input type="date" name="pay_exp_date">
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Billing Address</legend>
+          <div class="">
+            First Name: <input type="text" name="bill_first_name">
+          </div>
+          <div class="">
+            Last Name: <input type="text" name="bill_last_name">
+          </div>
+          <div class="">
+            Address: <input type="text" name="bill_address">
+          </div>
+          <div class="">
+            City: <input type="text" name="bill_city">
+          </div>
+          <div class="">
+            Zip Code: <input type="number" name="bill_zip_code">
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Shipping Address</legend>
+          <div class="">
+            First Name: <input type="text" name="ship_first_name">
+          </div>
+          <div class="">
+            Last Name: <input type="text" name="ship_last_name">
+          </div>
+          <div class="">
+            Address: <input type="text" name="ship_address">
+          </div>
+          <div class="">
+            City: <input type="text" name="ship_city">
+          </div>
+          <div class="">
+            Zip Code: <input type="number" name="ship_zip_code">
+          </div>
+        </fieldset>
         <input type="submit" name="" value="Place Order">
       </form>
     </div>

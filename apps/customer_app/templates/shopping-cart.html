@@ -9,7 +9,7 @@
     <!-- Navbar -->
     <div class="nav">
         <nav>
-					<div class="nav-wrapper brown darken-4">
+					<div class="">
 						<a href="/" class="brand-logo center">Silkroad</a>
               {% if logged_user == 1%}
     						<ul class="left">
@@ -75,7 +75,12 @@
                 <form class="" action="{% url 'change_quantity' product_id=item.product.id%}" method="post">
                   {% csrf_token %}
                   <div class="">
-                    <span style="color:red">{{item.quantity}}</span> <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity">
+                    {% if item.product.ongoing == True %}
+                      <span style="color:red">{{item.quantity}}</span> <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity">
+                    {% endif %}
+                    {% if item.product.ongoing == False %}
+                      <span>{{item.quantity}}</span> <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity">
+                    {% endif %}
                   </div>
                   <input type="submit" name="" value="Change">
                 </form>
@@ -126,7 +131,7 @@
     </div>
     <div class="">
       <form class="" action="{% url 'check_out' %}" method="get">
-        <input type="submit" name="" value="Go to Checkout">
+        <input type="submit" name="" value="Proceed to Checkout">
       </form>
     </div>
   </body>

@@ -156,8 +156,11 @@ def shopping_cart(request):
         for item in range (0, cart.count()):
             cart_item += cart[item].quantity
             raw_total += cart[item].quantity * cart[item].product.price
+            if cart[item].product.ongoing == False:
+                error.append(""+cart[item].product.name+" sale has been discontinued, please remove from your cart")
             if cart[item].quantity > cart[item].product.inventory:
-                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock but you selected "+str(cart[item].quantity)+", please change quantity")
+                if cart[item].product.ongoing == True:
+                    error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock but you selected "+str(cart[item].quantity)+", please change quantity")
         tax = round(float(raw_total)*0.075, 2)
         if raw_total > 0:
             shipping = 5.99
@@ -194,8 +197,11 @@ def check_out(request):
         for item in range (0, cart.count()):
             cart_item += cart[item].quantity
             raw_total += cart[item].quantity * cart[item].product.price
+            if cart[item].product.ongoing == False:
+                error.append(""+cart[item].product.name+" sale has been discontinued, please remove from your cart")
             if cart[item].quantity > cart[item].product.inventory:
-                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock but you selected "+str(cart[item].quantity)+", please change quantity")
+                if cart[item].product.ongoing == True:
+                    error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock but you selected "+str(cart[item].quantity)+", please change quantity")
         tax = round(float(raw_total)*0.075, 2)
         if raw_total > 0:
             shipping = 5.99
