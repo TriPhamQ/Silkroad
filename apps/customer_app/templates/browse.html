@@ -16,14 +16,13 @@
     							<li><a href="/admin">Admin</a></li>
     						</ul>
               {% endif %}
-              {% if logged_user != 1 and logged_user != 0 %}
-    						<ul class="left">
-    							<li><a href="/user">User Dashboard</a></li>
-    						</ul>
-              {% endif %}
               {% if logged_user != 0 %}
+								<ul class="left">
+									<li><a href="/user">User Dashboard</a></li>
+								</ul>
     						<ul class="right">
     							<li><a href="{% url 'signout' %}">Log out</a></li>
+									<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
     						</ul>
               {% endif %}
               {% if logged_user == 0 %}
@@ -34,11 +33,46 @@
 					</div>
         </nav>
     </div>
-		<div class="">
-			
-		</div>
-		{% for product in products %}
-			{{product.name}}
-		{% endfor %}
+		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+		<!-- View Product -->
+    <div class="">
+      <h3>Ongoing Product:</h3>
+      <table class="bordered striped highlight">
+        <thead>
+          <tr>
+            <th>Main Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Extra Images</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+          <tr>
+            <td>
+            {% for image in product.imageofproduct.all %}
+              {% if image.main == True %}
+                <a href="{% url 'product_page' product_id=product.id %}"><img src="{{image.image.url}}" height="100" width="100" alt=""></a>
+              {% endif %}
+            {% endfor %}
+            </td>
+            <td><a href="{% url 'product_page' product_id=product.id %}">{{product.name}}</a></td>
+            <td>{{product.description}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.inventory}}</td>
+            <td>
+            {% for image in product.imageofproduct.all %}
+              {% if image.main == False %}
+                <img src="{{image.image.url}}" height="100" width="100" alt="">
+              {% endif %}
+            {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 	</body>
 </html>

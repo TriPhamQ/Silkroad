@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Homepage</title>
+    <title>Shopping Cart</title>
   </head>
   <body>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
@@ -16,13 +16,15 @@
     							<li><a href="/admin">Admin</a></li>
     						</ul>
               {% endif %}
+              {% if logged_user != 1 and logged_user != 0 %}
+    						<ul class="left">
+    							<li><a href="/user">User Dashboard</a></li>
+    						</ul>
+              {% endif %}
               {% if logged_user != 0 %}
-                <ul class="left">
-                  <li><a href="/user">User Dashboard</a></li>
-                </ul>
     						<ul class="right">
     							<li><a href="{% url 'signout' %}">Log out</a></li>
-                  <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+									<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
     						</ul>
               {% endif %}
               {% if logged_user == 0 %}
@@ -34,19 +36,9 @@
         </nav>
     </div>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-		<!-- Category Nav -->
-      <div class="">
-        <ul>
-          {% for category in categories %}
-            <li><a href="{% url 'browse' category_name=category.name current_page=1 %}">{{category.name}}</a></li>
-          {% endfor %}
-          <li></li>
-        </ul>
-      </div>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- View Product -->
     <div class="">
-      <h3>Ongoing Product:</h3>
+      <h3>Shopping Cart:</h3>
       <table class="bordered striped highlight">
         <thead>
           <tr>
@@ -59,21 +51,21 @@
           </tr>
         </thead>
         <tbody>
-          {% for product in products %}
+          {% for item in cart %}
           <tr>
             <td>
-            {% for image in product.imageofproduct.all %}
+            {% for image in item.product.imageofproduct.all %}
               {% if image.main == True %}
-                <a href="{% url 'product_page' product_id=product.id %}"><img src="{{image.image.url}}" height="100" width="100" alt=""></a>
+                <a href="{% url 'product_page' product_id=item.product.id %}"><img src="{{image.image.url}}" height="100" width="100" alt=""></a>
               {% endif %}
             {% endfor %}
             </td>
-            <td><a href="{% url 'product_page' product_id=product.id %}">{{product.name}}</a></td>
-            <td>{{product.description}}</td>
-            <td>{{product.price}}</td>
-            <td>{{product.inventory}}</td>
+            <td><a href="{% url 'product_page' product_id=item.product.id %}">{{product.name}}</a></td>
+            <td>{{item.product.description}}</td>
+            <td>{{item.product.price}}</td>
+            <td>{{item.quantity}}</td>
             <td>
-            {% for image in product.imageofproduct.all %}
+            {% for image in item.product.imageofproduct.all %}
               {% if image.main == False %}
                 <img src="{{image.image.url}}" height="100" width="100" alt="">
               {% endif %}
@@ -83,6 +75,18 @@
           {% endfor %}
         </tbody>
       </table>
+    </div>
+    <div class="">
+      Raw Total: {{raw_total}}
+    </div>
+    <div class="">
+      Tax (7.5%): {{tax}}
+    </div>
+    <div class="">
+      Shipping Cost: {{shipping}}
+    </div>
+    <div class="">
+      Total: {{total}}
     </div>
   </body>
 </html>

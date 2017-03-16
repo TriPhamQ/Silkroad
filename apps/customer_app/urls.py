@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^$', views.index, name = 'index'),
     url(r'^browse/(?P<category_name>[\w\-]+)/(?P<current_page>\d+)$', views.browse, name = 'browse'),
     url(r'^user$', views.user, name = 'user'),
+    url(r'^shopping-cart$', views.shopping_cart, name = 'shopping_cart'),
     url(r'^product/(?P<product_id>\d+)$', views.product_page, name = 'product_page'),
     url(r'^add-to-cart/(?P<product_id>\d+)$', views.add_to_cart, name = 'add_to_cart')
 ]

@@ -5,6 +5,8 @@
     <title>User Dashboard</title>
   </head>
   <body>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+    <!-- Navbar -->
     <div class="nav">
         <nav>
 					<div class="nav-wrapper brown darken-4">
@@ -14,19 +16,18 @@
     							<li><a href="/admin">Admin</a></li>
     						</ul>
               {% endif %}
-              {% if logged_user != 1 and logged_user != 0 %}
-    						<ul class="left">
-    							<li><a href="/user">User Dashboard</a></li>
-    						</ul>
-              {% endif %}
               {% if logged_user != 0 %}
+                <ul class="left">
+                  <li><a href="/user">User Dashboard</a></li>
+                </ul>
     						<ul class="right">
-    							<li><a href="{%url 'signout' %}">Log out</a></li>
+    							<li><a href="{% url 'signout' %}">Log out</a></li>
+									<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
     						</ul>
               {% endif %}
               {% if logged_user == 0 %}
     						<ul class="right">
-    							<li><a href="{%url 'login_registration' %}">Log In</a></li>
+    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
     						</ul>
               {% endif %}
 					</div>

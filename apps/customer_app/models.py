@@ -20,6 +20,7 @@ class Order(models.Model):
     shipping = models.ForeignKey('ShippingAddress', related_name='shipto')
 
 class OrderProduct(models.Model):
+    quantity = models.PositiveSmallIntegerField(default=1)
     order = models.ForeignKey('Order', related_name='orderofproduct')
     product = models.ForeignKey('admin_app.Product', related_name='productoforder')
 

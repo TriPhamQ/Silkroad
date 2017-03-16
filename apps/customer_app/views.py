@@ -54,10 +54,25 @@ def browse(request, category_name, current_page):
     product_end = (int(current_page))*page_size
     max_pages = math.ceil(len(products)/page_size)
     products_out = Product.objects.filter(category = category).filter(ongoing = True)[product_start:product_end]
-    context = {
-        'logged_user': logged_user,
-        'products': products_out
-    }
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if user:
+        cart = Cart.objects.filter(user = user)
+        cart_item = 0
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+        context = {
+            'cart_item': cart_item,
+            'logged_user': logged_user,
+            'products': products_out
+        }
+    else:
+        context = {
+            'logged_user': logged_user,
+            'products': products_out
+        }
     return render(request, 'browse.html', context)
 
 def product_page(request, product_id):
@@ -121,12 +136,58 @@ def add_to_cart(request, product_id):
                 item.save()
             else:
                 item = Cart.objects.create(quantity = form['product_quantity'], user = user, product = product)
+        return redirect('/product/' + product_id)
+
+def shopping_cart(request):
+    if 'logged_user' not in request.session:
+        logged_user = 0
+    else:
+        logged_user = request.session['logged_user']
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if user:
+        cart = Cart.objects.filter(user = user)
+        cart_item = 0
+        raw_total = 0
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+            raw_total += cart[item].quantity * cart[item].product.price
+        tax = round(float(raw_total)*0.075, 2)
+        shipping = 5.99
+        total = round(tax + float(raw_total) + float(shipping), 2)
+        context = {
+            'cart_item': cart_item,
+            'cart': cart,
+            'raw_total': raw_total,
+            'tax': tax,
+            'shipping': shipping,
+            'total': total
+        }
+        return render(request, 'shopping-cart.html', context)
+    else:
         return redirect('/')
-    return redirect('/')
 
 def user(request):
     if 'logged_user' not in request.session:
-        return redirect('/')
+        logged_user = 0
     else:
         logged_user = request.session['logged_user']
-    return render(request, 'user-dashboard.html')
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if user:
+        cart = Cart.objects.filter(user = user)
+        cart_item = 0
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+        context = {
+            'logged_user': logged_user,
+            'cart_item': cart_item,
+            'cart': cart
+        }
+        return render(request, 'user-dashboard.html', context)
+    else:
+        return redirect('/')
