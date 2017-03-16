@@ -151,13 +151,17 @@ def shopping_cart(request):
         cart = Cart.objects.filter(user = user)
         cart_item = 0
         raw_total = 0
+        error = []
         for item in range (0, cart.count()):
             cart_item += cart[item].quantity
             raw_total += cart[item].quantity * cart[item].product.price
+            if cart[item].quantity > cart[item].product.inventory:
+                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
         tax = round(float(raw_total)*0.075, 2)
         shipping = 5.99
         total = round(tax + float(raw_total) + float(shipping), 2)
         context = {
+            'error': error,
             'cart_item': cart_item,
             'cart': cart,
             'raw_total': raw_total,
@@ -166,6 +170,121 @@ def shopping_cart(request):
             'total': total
         }
         return render(request, 'shopping-cart.html', context)
+    else:
+        return redirect('/')
+
+def check_out(request):
+    if 'logged_user' not in request.session:
+        logged_user = 0
+    else:
+        logged_user = request.session['logged_user']
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if user:
+        cart = Cart.objects.filter(user = user)
+        cart_item = 0
+        raw_total = 0
+        error = []
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+            raw_total += cart[item].quantity * cart[item].product.price
+            if cart[item].quantity > cart[item].product.inventory:
+                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
+        tax = round(float(raw_total)*0.075, 2)
+        shipping = 5.99
+        total = round(tax + float(raw_total) + float(shipping), 2)
+        print(error)
+        context = {
+            'error': error,
+            'cart_item': cart_item,
+            'cart': cart,
+            'raw_total': raw_total,
+            'tax': tax,
+            'shipping': shipping,
+            'total': total
+        }
+        return render(request, 'check-out.html', context)
+    else:
+        return redirect('/')
+
+def change_quantity(request, product_id):
+    if 'logged_user' not in request.session:
+        logged_user = 0
+    else:
+        logged_user = request.session['logged_user']
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if user:
+        cart = Cart.objects.filter(user = user)
+        cart_item = 0
+        raw_total = 0
+        form = request.POST
+        item_to_change = cart.get(product_id = product_id)
+        item_to_change.quantity = form['product_quantity']
+        item_to_change.save()
+        cart = Cart.objects.filter(user = user)
+        error = []
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+            raw_total += cart[item].quantity * cart[item].product.price
+            if cart[item].quantity > cart[item].product.inventory:
+                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
+        tax = round(float(raw_total)*0.075, 2)
+        shipping = 5.99
+        total = round(tax + float(raw_total) + float(shipping), 2)
+        print(error)
+        context = {
+            'error': error,
+            'cart_item': cart_item,
+            'cart': cart,
+            'raw_total': raw_total,
+            'tax': tax,
+            'shipping': shipping,
+            'total': total
+        }
+        return redirect('/shopping-cart')
+    else:
+        return redirect('/')
+
+def remove_cart_item(request, product_id):
+    if 'logged_user' not in request.session:
+        logged_user = 0
+    else:
+        logged_user = request.session['logged_user']
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if user:
+        Cart.objects.get(user = user, product_id = product_id).delete()
+        cart_item = 0
+        raw_total = 0
+        form = request.POST
+        cart = Cart.objects.filter(user = user)
+        error = []
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+            raw_total += cart[item].quantity * cart[item].product.price
+            if cart[item].quantity > cart[item].product.inventory:
+                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
+        tax = round(float(raw_total)*0.075, 2)
+        shipping = 5.99
+        total = round(tax + float(raw_total) + float(shipping), 2)
+        print(error)
+        context = {
+            'error': error,
+            'cart_item': cart_item,
+            'cart': cart,
+            'raw_total': raw_total,
+            'tax': tax,
+            'shipping': shipping,
+            'total': total
+        }
+        return redirect('/shopping-cart')
     else:
         return redirect('/')
 
