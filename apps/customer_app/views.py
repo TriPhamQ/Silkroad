@@ -124,18 +124,19 @@ def add_to_cart(request, product_id):
     else:
         logged_user = request.session['logged_user']
         product = Product.objects.get(id = product_id)
-        form = request.POST
-        if int(form['product_quantity']) <= product.inventory:
-            user = User.objects.get(id = logged_user)
-            try:
-                item = Cart.objects.get(user = user, product = product)
-            except:
-                item = None
-            if item:
-                item.quantity += int(form['product_quantity'])
-                item.save()
-            else:
-                item = Cart.objects.create(quantity = form['product_quantity'], user = user, product = product)
+        if product.ongoing == True:
+            form = request.POST
+            if int(form['product_quantity']) <= product.inventory:
+                user = User.objects.get(id = logged_user)
+                try:
+                    item = Cart.objects.get(user = user, product = product)
+                except:
+                    item = None
+                if item:
+                    item.quantity += int(form['product_quantity'])
+                    item.save()
+                else:
+                    item = Cart.objects.create(quantity = form['product_quantity'], user = user, product = product)
         return redirect('/product/' + product_id)
 
 def shopping_cart(request):
@@ -156,9 +157,12 @@ def shopping_cart(request):
             cart_item += cart[item].quantity
             raw_total += cart[item].quantity * cart[item].product.price
             if cart[item].quantity > cart[item].product.inventory:
-                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
+                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock but you selected "+str(cart[item].quantity)+", please change quantity")
         tax = round(float(raw_total)*0.075, 2)
-        shipping = 5.99
+        if raw_total > 0:
+            shipping = 5.99
+        else:
+            shipping = 0.00
         total = round(tax + float(raw_total) + float(shipping), 2)
         context = {
             'error': error,
@@ -191,9 +195,12 @@ def check_out(request):
             cart_item += cart[item].quantity
             raw_total += cart[item].quantity * cart[item].product.price
             if cart[item].quantity > cart[item].product.inventory:
-                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
+                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock but you selected "+str(cart[item].quantity)+", please change quantity")
         tax = round(float(raw_total)*0.075, 2)
-        shipping = 5.99
+        if raw_total > 0:
+            shipping = 5.99
+        else:
+            shipping = 0.00
         total = round(tax + float(raw_total) + float(shipping), 2)
         print(error)
         context = {
@@ -234,7 +241,10 @@ def change_quantity(request, product_id):
             if cart[item].quantity > cart[item].product.inventory:
                 error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
         tax = round(float(raw_total)*0.075, 2)
-        shipping = 5.99
+        if raw_total > 0:
+            shipping = 5.99
+        else:
+            shipping = 0.00
         total = round(tax + float(raw_total) + float(shipping), 2)
         print(error)
         context = {
@@ -272,7 +282,10 @@ def remove_cart_item(request, product_id):
             if cart[item].quantity > cart[item].product.inventory:
                 error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
         tax = round(float(raw_total)*0.075, 2)
-        shipping = 5.99
+        if raw_total > 0:
+            shipping = 5.99
+        else:
+            shipping = 0.00
         total = round(tax + float(raw_total) + float(shipping), 2)
         print(error)
         context = {
