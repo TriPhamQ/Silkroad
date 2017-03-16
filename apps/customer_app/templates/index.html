@@ -24,6 +24,7 @@
               {% if logged_user != 0 %}
     						<ul class="right">
     							<li><a href="{% url 'signout' %}">Log out</a></li>
+                  <li><a href="/">Shopping Cart ({{cart_item}})</a></li>
     						</ul>
               {% endif %}
               {% if logged_user == 0 %}
@@ -68,7 +69,7 @@
             {% endif %}
           {% endfor %}
           </td>
-          <td>{{product.name}}</td>
+          <td><a href="{% url 'product_page' product_id=product.id %}">{{product.name}}</a></td>
           <td>{{product.description}}</td>
           <td>{{product.price}}</td>
           <td>{{product.inventory}}</td>
