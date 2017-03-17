@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from .models import User, Category, Product, Image, Cart, Order, OrderProduct, BillingAddress, ShippingAddress
-import os, math
+import os, math, stripe
 
 # Create your views here.
 def index(request):
@@ -167,6 +167,7 @@ def shopping_cart(request):
         else:
             shipping = 0.00
         total = round(tax + float(raw_total) + float(shipping), 2)
+        stripe_total = round((tax + float(raw_total) + float(shipping))*100, 2)
         context = {
             'error': error,
             'cart_item': cart_item,
@@ -174,7 +175,8 @@ def shopping_cart(request):
             'raw_total': raw_total,
             'tax': tax,
             'shipping': shipping,
-            'total': total
+            'total': total,
+            'stripe_total': stripe_total
         }
         return render(request, 'shopping-cart.html', context)
     else:
@@ -208,7 +210,7 @@ def check_out(request):
         else:
             shipping = 0.00
         total = round(tax + float(raw_total) + float(shipping), 2)
-        print(error)
+        stripe_total = round((tax + float(raw_total) + float(shipping))*100, 2)
         context = {
             'error': error,
             'cart_item': cart_item,
@@ -216,7 +218,8 @@ def check_out(request):
             'raw_total': raw_total,
             'tax': tax,
             'shipping': shipping,
-            'total': total
+            'total': total,
+            'stripe_total': stripe_total
         }
         return render(request, 'check-out.html', context)
     else:
@@ -304,6 +307,55 @@ def remove_cart_item(request, product_id):
             'total': total
         }
         return redirect('/shopping-cart')
+    else:
+        return redirect('/')
+
+def place_order(request):
+    if 'logged_user' not in request.session:
+        logged_user = 0
+    else:
+        logged_user = request.session['logged_user']
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if user:
+        stripe.api_key = "sk_test_rcBDHXKJDHEK0uSNnRiLsorp"
+        token = request.POST['stripeToken']
+        cart = Cart.objects.filter(user = user)
+        cart_item = 0
+        raw_total = 0
+        error = []
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+            raw_total += cart[item].quantity * cart[item].product.price
+            if cart[item].product.ongoing == False:
+                error.append(""+cart[item].product.name+" sale has been discontinued, please remove from your cart")
+            if cart[item].quantity > cart[item].product.inventory:
+                if cart[item].product.ongoing == True:
+                    error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock but you selected "+str(cart[item].quantity)+", please change quantity")
+        tax = round(float(raw_total)*0.075, 2)
+        if raw_total > 0:
+            shipping = 5.99
+        else:
+            shipping = 0.00
+        total = round(tax + float(raw_total) + float(shipping), 2)
+        stripe_total = round((tax + float(raw_total) + float(shipping))*100, 2)
+        print(token)
+        print(stripe_total)
+        if len(error) < 1:
+            print("Creating order")
+            charge = stripe.Charge.create(
+                amount = int(stripe_total),
+                currency = "usd",
+                description = "Charged "+str(stripe)+" to "+str(User.objects.get(id = user.id)),
+                source = token,
+            )
+            print(stripe.Balance.retrieve())
+            return redirect('/check-out')
+        else:
+            print("Error")
+            return redirect('/check-out')
     else:
         return redirect('/')
 

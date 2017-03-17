@@ -12,7 +12,8 @@ urlpatterns = [
     url(r'^product/(?P<product_id>\d+)$', views.product_page, name = 'product_page'),
     url(r'^add-to-cart/(?P<product_id>\d+)$', views.add_to_cart, name = 'add_to_cart'),
     url(r'^change-quantity/(?P<product_id>\d+)$', views.change_quantity, name = 'change_quantity'),
-    url(r'^remove-item/(?P<product_id>\d+)$', views.remove_cart_item, name = 'remove_cart_item')
+    url(r'^remove-item/(?P<product_id>\d+)$', views.remove_cart_item, name = 'remove_cart_item'),
+    url(r'^place-order$', views.place_order, name = 'place_order'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

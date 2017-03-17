@@ -67,7 +67,7 @@
               {% endif %}
             {% endfor %}
             </td>
-            <td><a href="{% url 'product_page' product_id=item.product.id %}">{{product.name}}</a></td>
+            <td><a href="{% url 'product_page' product_id=item.product.id %}">{{item.product.name}}</a></td>
             <td>{{item.product.description}}</td>
             <td>{{item.product.price}}</td>
             {% if item.quantity > item.product.inventory %}
@@ -130,7 +130,7 @@
       Total: {{total}}
     </div>
     <div class="">
-      <form class="" action="" method="post">
+      <form class="" action="{% url 'place_order' %}" method="post">
         {% csrf_token %}
         <fieldset>
           <legend>Payment Infomation</legend>
@@ -184,6 +184,15 @@
           </div>
         </fieldset>
         <input type="submit" name="" value="Place Order">
+        <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_eUkW9KjYDyZ27llrY7RMGhgl"
+          data-amount="{{stripe_total}}"
+          data-name="Silkroad"
+          data-description="Widget"
+          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-locale="auto">
+        </script>
       </form>
     </div>
   </body>

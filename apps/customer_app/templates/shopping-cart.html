@@ -67,7 +67,7 @@
               {% endif %}
             {% endfor %}
             </td>
-            <td><a href="{% url 'product_page' product_id=item.product.id %}">{{product.name}}</a></td>
+            <td><a href="{% url 'product_page' product_id=item.product.id %}">{{item.product.name}}</a></td>
             <td>{{item.product.description}}</td>
             <td>{{item.product.price}}</td>
             {% if item.quantity > item.product.inventory %}
