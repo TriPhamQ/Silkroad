@@ -8,32 +8,32 @@
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
     <!-- Navbar -->
     <div class="nav">
-        <nav>
-					<div class="">
-						<a href="/" class="brand-logo center">Silkroad</a>
-              {% if logged_user == 1%}
-    						<ul class="left">
-    							<li><a href="/admin">Admin</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user != 1 and logged_user != 0 %}
-    						<ul class="left">
-    							<li><a href="/user">User Dashboard</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user != 0 %}
-    						<ul class="right">
-    							<li><a href="{% url 'signout' %}">Log out</a></li>
-									<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user == 0 %}
-    						<ul class="right">
-    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
-    						</ul>
-              {% endif %}
-					</div>
-        </nav>
+      <nav>
+				<div class="">
+					<a href="/" class="brand-logo center">Silkroad</a>
+          {% if logged_user == 1%}
+						<ul class="left">
+							<li><a href="/admin">Admin</a></li>
+						</ul>
+          {% endif %}
+          {% if logged_user != 1 and logged_user != 0 %}
+						<ul class="left">
+							<li><a href="/user">User Dashboard</a></li>
+						</ul>
+          {% endif %}
+          {% if logged_user != 0 %}
+						<ul class="right">
+							<li><a href="{% url 'signout' %}">Log out</a></li>
+							<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+						</ul>
+          {% endif %}
+          {% if logged_user == 0 %}
+						<ul class="right">
+							<li><a href="{% url 'login_registration' %}">Log In</a></li>
+						</ul>
+          {% endif %}
+				</div>
+      </nav>
     </div>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- View Product -->
@@ -130,9 +130,11 @@
       Total: {{total}}
     </div>
     <div class="">
-      <form class="" action="{% url 'check_out' %}" method="get">
-        <input type="submit" name="" value="Proceed to Checkout">
-      </form>
+      {% if cart.count >= 1 %}
+        <form class="" action="{% url 'check_out' %}" method="get">
+          <input type="submit" name="" value="Proceed to Checkout">
+        </form>
+      {% endif %}
     </div>
   </body>
 </html>

@@ -21,19 +21,19 @@
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
     <!-- Navbar -->
     <div class="nav">
-        <nav>
-					<div class="">
-						<a href="/" class="brand-logo center">Silkroad</a>
-						<ul class="left">
-							<li><a href="/admin">Home</a></li>
-							<li><a href="/products">Manage products</a></li>
-							<li><a href="/orders">Manage orders</a></li>
-						</ul>
-						<ul class="right">
-							<li><a href="{%url 'signout' %}">Log out</a></li>
-						</ul>
-					</div>
-        </nav>
+      <nav>
+				<div class="">
+					<a href="/" class="brand-logo center">Silkroad</a>
+					<ul class="left">
+						<li><a href="/admin">Home</a></li>
+						<li><a href="/products">Manage products</a></li>
+						<li><a href="/orders">Manage orders</a></li>
+					</ul>
+					<ul class="right">
+						<li><a href="{%url 'signout' %}">Log out</a></li>
+					</ul>
+				</div>
+      </nav>
     </div>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- Add Product -->
@@ -199,12 +199,5 @@
 				<input class="" type="submit" name="" value="Clear Database">
 			</form>
 		</div>
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$('#product_desc').val('New Text');
-				$('#product_desc').trigger('autoresize');
-				$('select').material_select();
-			});
-		</script>
 	</body>
 </html>

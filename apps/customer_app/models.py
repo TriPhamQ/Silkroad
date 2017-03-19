@@ -30,7 +30,7 @@ class BillingAddress(models.Model):
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
-    zipcode = models.PositiveSmallIntegerField()
+    zipcode = models.CharField(max_length=5)
 
 class ShippingAddress(models.Model):
     first_name = models.CharField(max_length=30)
@@ -38,4 +38,4 @@ class ShippingAddress(models.Model):
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
-    zipcode = models.PositiveSmallIntegerField()
+    zipcode = models.CharField(max_length=5)

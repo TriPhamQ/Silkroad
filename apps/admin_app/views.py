@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from .models import Category, Product, Image
+from ..customer_app.models import Cart, Order, OrderProduct, BillingAddress, ShippingAddress
+from ..login_registration_app.models import User
 import os
 
 # App root
@@ -41,7 +43,27 @@ def orders(request):
         return redirect('/login_registration')
     else:
         if request.session['logged_user'] == 1:
-            return render(request, 'orders.html')
+            orders = Order.objects.all()
+            context = {
+                'orders': orders
+            }
+            return render(request, 'orders.html', context)
+        else:
+            return redirect('/')
+
+def order_status_update(request):
+    if 'logged_user' not in request.session:
+        return redirect('/login_registration')
+    else:
+        if request.session['logged_user'] == 1:
+            order = Order.objects.get(id = request.GET['order_id'])
+            order.status = request.GET['status']
+            order.save()
+            orders = Order.objects.all()
+            context = {
+                'orders': orders
+            }
+            return render(request, 'orders.html', context)
         else:
             return redirect('/')
 

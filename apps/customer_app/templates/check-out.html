@@ -3,37 +3,38 @@
   <head>
     <meta charset="utf-8">
     <title>Check Out</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   </head>
   <body>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
     <!-- Navbar -->
     <div class="nav">
-        <nav>
-					<div class="">
-						<a href="/" class="brand-logo center">Silkroad</a>
-              {% if logged_user == 1%}
-    						<ul class="left">
-    							<li><a href="/admin">Admin</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user != 1 and logged_user != 0 %}
-    						<ul class="left">
-    							<li><a href="/user">User Dashboard</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user != 0 %}
-    						<ul class="right">
-    							<li><a href="{% url 'signout' %}">Log out</a></li>
-									<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user == 0 %}
-    						<ul class="right">
-    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
-    						</ul>
-              {% endif %}
-					</div>
-        </nav>
+      <nav>
+				<div class="">
+					<a href="/" class="brand-logo center">Silkroad</a>
+          {% if logged_user == 1%}
+						<ul class="left">
+							<li><a href="/admin">Admin</a></li>
+						</ul>
+          {% endif %}
+          {% if logged_user != 1 and logged_user != 0 %}
+						<ul class="left">
+							<li><a href="/user">User Dashboard</a></li>
+						</ul>
+          {% endif %}
+          {% if logged_user != 0 %}
+						<ul class="right">
+							<li><a href="{% url 'signout' %}">Log out</a></li>
+							<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+						</ul>
+          {% endif %}
+          {% if logged_user == 0 %}
+						<ul class="right">
+							<li><a href="{% url 'login_registration' %}">Log In</a></li>
+						</ul>
+          {% endif %}
+				</div>
+      </nav>
     </div>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- View Product -->
@@ -130,21 +131,24 @@
       Total: {{total}}
     </div>
     <div class="">
-      <form class="" action="{% url 'place_order' %}" method="post">
+      <form id="payment-form" class="" action="{% url 'place_order' %}" method="post">
         {% csrf_token %}
+        <span class="payment-errors"></span>
         <fieldset>
           <legend>Payment Infomation</legend>
           <div class="">
-            Name on Card: <input type="text" name="pay_name">
+            Name on Card: <input class="card-name" type="text" name="pay_name" data-stripe="name">
           </div>
           <div class="">
-            Card Number: <input type="number" name="pay_card_number">
+            Card Number: <input class="card-number" type="text" size="16" maxlength="16" name="pay_card_number" data-stripe="number">
           </div>
           <div class="">
-            SVC: <input type="number" name="pay_card_svc">
+            CVC: <input class="card-cvc" type="text" size="4" maxlength="4" name="pay_card_cvc" data-stripe="cvc">
           </div>
           <div class="">
-            Expiring Date: <input type="date" name="pay_exp_date">
+            Expiring date:
+            Month <input class="card-expiry-month" type="text" size="2" maxlength="2" name="pay_exp_month" data-stripe="exp_month">
+            Year <input class="card-expiry-year" type="text" size="4" maxlength="4" name="pay_exp_year" data-stripe="exp_year">
           </div>
         </fieldset>
         <fieldset>
@@ -156,13 +160,16 @@
             Last Name: <input type="text" name="bill_last_name">
           </div>
           <div class="">
-            Address: <input type="text" name="bill_address">
+            Address: <input class="address_line1" type="text" name="bill_address" data-stripe="address_line1">
           </div>
           <div class="">
-            City: <input type="text" name="bill_city">
+            City: <input class="address_city" type="text" name="bill_city" data-stripe="address_city">
           </div>
           <div class="">
-            Zip Code: <input type="number" name="bill_zip_code">
+            State: <input class="address_state" type="text" name="bill_state" data-stripe="address_state">
+          </div>
+          <div class="">
+            Zip: <input class="address_zip" type="text" size="5" maxlength="5" name="bill_zip">
           </div>
         </fieldset>
         <fieldset>
@@ -180,11 +187,14 @@
             City: <input type="text" name="ship_city">
           </div>
           <div class="">
-            Zip Code: <input type="number" name="ship_zip_code">
+            State: <input type="text" name="ship_state">
+          </div>
+          <div class="">
+            Zip Code: <input type="number" name="ship_zip">
           </div>
         </fieldset>
-        <input type="submit" name="" value="Place Order">
-        <script
+        <input class="submit" type="submit" name="" value="Place Order">
+        <!-- <script
           src="https://checkout.stripe.com/checkout.js" class="stripe-button"
           data-key="pk_test_eUkW9KjYDyZ27llrY7RMGhgl"
           data-amount="{{stripe_total}}"
@@ -192,8 +202,50 @@
           data-description="Widget"
           data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
           data-locale="auto">
-        </script>
+        </script> -->
       </form>
     </div>
+    <script type="text/javascript" src="https://js.stripe.com/v2/" charset="utf-8"></script>
+    <script type="text/javascript">
+      Stripe.setPublishableKey('pk_test_eUkW9KjYDyZ27llrY7RMGhgl');
+
+      $(function () {
+        var $form = $('#payment-form');
+        $form.submit(function (event) {
+          // Disable the submit button to prevent repeated clicks:
+          $form.find('.submit').prop('disabled', true);
+
+          // Request a token from Stripe:
+          Stripe.card.createToken($form, stripeResponseHandler);
+
+          // Prevent the form from being submitted:
+          return false;
+        });
+      });
+
+      function stripeResponseHandler(status, response) {
+        // Grab the form:
+        var $form = $('#payment-form');
+
+        if (response.error) { // Problem!
+
+          // Show the errors on the form
+          $form.find('.payment-errors').text(response.error.message);
+          $form.find('.submit').prop('disabled', false); // Re-enable submission
+
+        }
+        else { // Token was created!
+
+          // Get the token ID:
+          var token = response.id;
+
+          // Insert the token into the form so it gets submitted to the server:
+          $form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+          // Submit the form:
+          $form.get(0).submit();
+        };
+      };
+    </script>
   </body>
 </html>

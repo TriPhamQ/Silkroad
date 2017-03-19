@@ -193,35 +193,38 @@ def check_out(request):
         user = None
     if user:
         cart = Cart.objects.filter(user = user)
-        cart_item = 0
-        raw_total = 0
-        error = []
-        for item in range (0, cart.count()):
-            cart_item += cart[item].quantity
-            raw_total += cart[item].quantity * cart[item].product.price
-            if cart[item].product.ongoing == False:
-                error.append(""+cart[item].product.name+" sale has been discontinued, please remove from your cart")
-            if cart[item].quantity > cart[item].product.inventory:
-                if cart[item].product.ongoing == True:
-                    error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock but you selected "+str(cart[item].quantity)+", please change quantity")
-        tax = round(float(raw_total)*0.075, 2)
-        if raw_total > 0:
-            shipping = 5.99
+        if cart.count() >= 1:
+            cart_item = 0
+            raw_total = 0
+            error = []
+            for item in range (0, cart.count()):
+                cart_item += cart[item].quantity
+                raw_total += cart[item].quantity * cart[item].product.price
+                if cart[item].product.ongoing == False:
+                    error.append(""+cart[item].product.name+" sale has been discontinued, please remove from your cart")
+                if cart[item].quantity > cart[item].product.inventory:
+                    if cart[item].product.ongoing == True:
+                        error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock but you selected "+str(cart[item].quantity)+", please change quantity")
+            tax = round(float(raw_total)*0.075, 2)
+            if raw_total > 0:
+                shipping = 5.99
+            else:
+                shipping = 0.00
+            total = round(tax + float(raw_total) + float(shipping), 2)
+            stripe_total = round((tax + float(raw_total) + float(shipping))*100, 2)
+            context = {
+                'error': error,
+                'cart_item': cart_item,
+                'cart': cart,
+                'raw_total': raw_total,
+                'tax': tax,
+                'shipping': shipping,
+                'total': total,
+                'stripe_total': stripe_total
+            }
+            return render(request, 'check-out.html', context)
         else:
-            shipping = 0.00
-        total = round(tax + float(raw_total) + float(shipping), 2)
-        stripe_total = round((tax + float(raw_total) + float(shipping))*100, 2)
-        context = {
-            'error': error,
-            'cart_item': cart_item,
-            'cart': cart,
-            'raw_total': raw_total,
-            'tax': tax,
-            'shipping': shipping,
-            'total': total,
-            'stripe_total': stripe_total
-        }
-        return render(request, 'check-out.html', context)
+            return redirect('/')
     else:
         return redirect('/')
 
@@ -320,6 +323,7 @@ def place_order(request):
     except:
         user = None
     if user:
+        form = request.POST
         stripe.api_key = "sk_test_rcBDHXKJDHEK0uSNnRiLsorp"
         token = request.POST['stripeToken']
         cart = Cart.objects.filter(user = user)
@@ -351,7 +355,39 @@ def place_order(request):
                 description = "Charged "+str(stripe)+" to "+str(User.objects.get(id = user.id)),
                 source = token,
             )
-            print(stripe.Balance.retrieve())
+            if charge:
+                print(stripe.Balance.retrieve())
+                billing_address = BillingAddress.objects.create(
+                    first_name = form['bill_first_name'],
+                    last_name = form['bill_last_name'],
+                    address = form['bill_address'],
+                    city = form['bill_city'],
+                    state = form['bill_state'],
+                    zipcode = form['bill_zip']
+                )
+                shipping_address = ShippingAddress.objects.create(
+                    first_name = form['bill_first_name'],
+                    last_name = form['bill_last_name'],
+                    address = form['bill_address'],
+                    city = form['bill_city'],
+                    state = form['bill_state'],
+                    zipcode = form['bill_zip']
+                )
+                order = Order.objects.create(
+                    user = user,
+                    total = total,
+                    tax = tax,
+                    shipping_cost = shipping,
+                    billing = billing_address,
+                    shipping = shipping_address
+                )
+                for item in range (0, cart.count()):
+                    OrderProduct.objects.create(
+                        quantity = cart[item].quantity,
+                        order = order,
+                        product = cart[item].product
+                    )
+                cart.delete()
             return redirect('/check-out')
         else:
             print("Error")
@@ -373,10 +409,67 @@ def user(request):
         cart_item = 0
         for item in range (0, cart.count()):
             cart_item += cart[item].quantity
+        orders = Order.objects.filter(user = user)
         context = {
             'logged_user': logged_user,
             'cart_item': cart_item,
-            'cart': cart
+            'cart': cart,
+            'orders': orders
+        }
+        return render(request, 'user-dashboard.html', context)
+    else:
+        return redirect('/')
+
+def view_order(request, order_id):
+    if 'logged_user' not in request.session:
+        logged_user = 0
+    else:
+        logged_user = request.session['logged_user']
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if user:
+        cart = Cart.objects.filter(user = user)
+        cart_item = 0
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+        order = Order.objects.get(id = order_id)
+        context = {
+            'logged_user': logged_user,
+            'cart_item': cart_item,
+            'cart': cart,
+            'order': order
+        }
+        return render(request, 'view-order.html', context)
+    else:
+        return redirect('/')
+
+def cancel_order(request, order_id):
+    if 'logged_user' not in request.session:
+        logged_user = 0
+    else:
+        logged_user = request.session['logged_user']
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if user:
+        cart = Cart.objects.filter(user = user)
+        cart_item = 0
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+        order_to_cancel = Order.objects.get(id = order_id)
+        if order_to_cancel:
+            order_to_cancel.status = "Canceled"
+            order_to_cancel.save()
+            # Request refund
+        orders = Order.objects.filter(user = user)
+        context = {
+            'logged_user': logged_user,
+            'cart_item': cart_item,
+            'cart': cart,
+            'orders': orders
         }
         return render(request, 'user-dashboard.html', context)
     else:
