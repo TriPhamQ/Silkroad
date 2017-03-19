@@ -387,6 +387,9 @@ def place_order(request):
                         order = order,
                         product = cart[item].product
                     )
+                    change_inventory = cart[item].product
+                    change_inventory.inventory -= cart[item].quantity
+                    change_inventory.save()
                 cart.delete()
             return redirect('/check-out')
         else:
