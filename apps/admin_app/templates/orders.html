@@ -4,92 +4,27 @@
 		<meta charset="utf-8">
 		<title>Orders Manager</title>
 		<link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/d/d1/Toad_3D_Land.png">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> -->
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	</head>
 	<body>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
-    <div class="nav">
-      <nav>
-        <div class="">
-          <a href="/" class="brand-logo center">Silkroad</a>
-  				<ul class="left">
-  					<li><a href="/admin">Home</a></li>
-  					<li><a href="/products">Manage products</a></li>
-            <li><a href="/orders">Manage orders</a></li>
-  				</ul>
-  				<ul class="right">
-  					<li><a href="{%url 'signout' %}">Log out</a></li>
-  				</ul>
+        <!-- Navbar -->
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper brown darken-4">
+                    <a href="/" class="brand-logo center">Silkroad</a>
+    				<ul class="left">
+    					<li><a href="/admin">Home</a></li>
+    					<li><a href="/products">Manage products</a></li>
+                        <li><a href="/orders">Manage orders</a></li>
+    				</ul>
+    				<ul class="right">
+    					<li><a href="{%url 'signout' %}">Log out</a></li>
+    				</ul>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-		<!-- Orders -->
-		<div class="">
-			<table>
-				<thead>
-					<tr>
-						<th>Order ID</th>
-						<th>User</th>
-						<th>Total</th>
-						<th>Shipping Address</th>
-						<th>Ordered date</th>
-						<th>Order Status</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for order in orders %}
-						<tr>
-							<td><a href="{% url 'view_order' order_id=order.id %}">{{order.id}}</a></td>
-							<td>{{order.user.first_name}} {{order.user.last_name}}</td>
-							<td>$ {{order.total}}</td>
-							<td>{{order.shipping.address}}, {{order.shipping.city}}, {{order.shipping.state}} {{order.shipping.zipcode}}</td>
-							<td>{{order.added_at}}</td>
-							<td>
-								{% if order.status != "Cancelled" and order.status != "Refunded" %}
-									<select class="order_status" name="status">
-					          <option selected='selected' value="{{order.status}}">{{order.status}}</option>
-					          <option value="Order in Process">Order in Process</option>
-					          <option value="Shipped">Shipped</option>
-					          <option value="Refunded">Refunded</option>
-					        </select>
-									<input type="hidden" value="{{order.id}}">
-								{% endif %}
-								{% if order.status == "Cancelled" or order.status == "Refunded" %}
-									{{order.status}}
-								{% endif %}
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		<script type="text/javascript">
-			$(document).ready(function () {
-				$(".order_status").change(function (e) {
-					// e.preventDefault();
-					if (confirm("Are you sure?")) {
-						$( "select option:selected" )
-							var order_id = $(this).siblings('input').val()
-							var status = $(this).val()
-							console.log(status)
-						}
-						$.ajax({
-								type: 'GET',
-								url: '{% url 'order_status_update' %}',
-								data: {
-									'status': status,
-									'order_id': order_id
-								}
-						});
-						if (status == "Refunded") {
-							$("select").prop("disabled", true);
-						}
-				})
-			});
-		</script>
 	</body>
 </html>
