@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Check Out</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  </head>
+  <body>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+    <!-- Navbar -->
+    <div class="nav">
+      <nav>
+				<div class="">
+					<a href="/" class="brand-logo center">Silkroad</a>
+          {% if logged_user == 1%}
+						<ul class="left">
+							<li><a href="/admin">Admin</a></li>
+						</ul>
+          {% endif %}
+          {% if logged_user != 1 and logged_user != 0 %}
+						<ul class="left">
+							<li><a href="/user">User Dashboard</a></li>
+						</ul>
+          {% endif %}
+          {% if logged_user != 0 %}
+						<ul class="right">
+							<li><a href="{% url 'signout' %}">Log out</a></li>
+							<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+						</ul>
+          {% endif %}
+          {% if logged_user == 0 %}
+						<ul class="right">
+							<li><a href="{% url 'login_registration' %}">Log In</a></li>
+						</ul>
+          {% endif %}
+				</div>
+      </nav>
+    </div>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+		<!-- View Product -->
+    {% if error|length > 0 %}
+      <div class="">
+        {% for err in error %}
+          <p style="color:red">{{err}}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="">
+      <h3>Shopping Cart:</h3>
+      <table class="bordered striped highlight">
+        <thead>
+          <tr>
+            <th>Main Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Extra Images</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart %}
+          <tr>
+            <td>
+            {% for image in item.product.imageofproduct.all %}
+              {% if image.main == True %}
+                <a href="{% url 'product_page' product_id=item.product.id %}"><img src="{{image.image.url}}" height="100" width="100" alt=""></a>
+              {% endif %}
+            {% endfor %}
+            </td>
+            <td><a href="{% url 'product_page' product_id=item.product.id %}">{{item.product.name}}</a></td>
+            <td>{{item.product.description}}</td>
+            <td>{{item.product.price}}</td>
+            {% if item.quantity > item.product.inventory %}
+              <td>
+                <form class="" action="{% url 'change_quantity' product_id=item.product.id%}" method="post">
+                  {% csrf_token %}
+                  <div class="">
+                    {% if item.product.ongoing == True %}
+                      <span style="color:red">{{item.quantity}}</span> <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity">
+                    {% endif %}
+                    {% if item.product.ongoing == False %}
+                      <span>{{item.quantity}}</span> <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity">
+                    {% endif %}
+                  </div>
+                  <input type="submit" name="" value="Change">
+                </form>
+                <form class="" action="{% url 'remove_cart_item' product_id=item.product.id%}" method="post">
+                  {% csrf_token %}
+                  <input type="submit" name="" value="Remove">
+                </form>
+            </td>
+            {% endif %}
+            {% if item.quantity <= item.product.inventory %}
+              <td>
+                <form class="" action="{% url 'change_quantity' product_id=item.product.id%}" method="post">
+                  {% csrf_token %}
+                  <div class="">
+                    <span>{{item.quantity}}</span> <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity">
+                  </div>
+                  <input type="submit" name="" value="Change">
+                </form>
+                <form class="" action="{% url 'remove_cart_item' product_id=item.product.id%}" method="post">
+                  {% csrf_token %}
+                  <input type="submit" name="" value="Remove">
+                </form>
+              </td>
+            {% endif %}
+            <td>
+            {% for image in item.product.imageofproduct.all %}
+              {% if image.main == False %}
+                <img src="{{image.image.url}}" height="100" width="100" alt="">
+              {% endif %}
+            {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+		<!-- Cost -->
+    <div class="">
+      Raw Total: {{raw_total}}
+    </div>
+    <div class="">
+      Tax (7.5%): {{tax}}
+    </div>
+    <div class="">
+      Shipping Cost: {{shipping}}
+    </div>
+    <div class="">
+      Total: {{total}}
+    </div>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+		<!-- Payment Form -->
+    <div class="">
+      <form id="payment-form" class="" action="{% url 'place_order' %}" method="post">
+        {% csrf_token %}
+        <span class="payment-errors"></span>
+        <fieldset>
+          <legend>Payment Infomation</legend>
+          <div class="">
+            Name on Card: <input class="card-name" type="text" name="pay_name" data-stripe="name">
+          </div>
+          <div class="">
+            Card Number: <input class="card-number" type="text" size="16" maxlength="16" name="pay_card_number" data-stripe="number">
+          </div>
+          <div class="">
+            CVC: <input class="card-cvc" type="text" size="4" maxlength="4" name="pay_card_cvc" data-stripe="cvc">
+          </div>
+          <div class="">
+            Expiring date:
+            Month <input class="card-expiry-month" type="text" size="2" maxlength="2" name="pay_exp_month" data-stripe="exp_month">
+            Year <input class="card-expiry-year" type="text" size="4" maxlength="4" name="pay_exp_year" data-stripe="exp_year">
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Billing Address</legend>
+          <div class="">
+            First Name: <input id="bill_first_name" type="text" name="bill_first_name">
+          </div>
+          <div class="">
+            Last Name: <input id="bill_last_name" type="text" name="bill_last_name">
+          </div>
+          <div class="">
+            Address: <input id="bill_address" class="address_line1" type="text" name="bill_address" data-stripe="address_line1">
+          </div>
+          <div class="">
+            City: <input id="bill_city" class="address_city" type="text" name="bill_city" data-stripe="address_city">
+          </div>
+          <div class="">
+            State: <input id="bill_state" class="address_state" type="text" name="bill_state" data-stripe="address_state">
+          </div>
+          <div class="">
+            Zip: <input id="bill_zip" class="address_zip" type="text" size="5" maxlength="5" name="bill_zip">
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Shipping Address</legend>
+          <div class="">
+            Same as billing address <input class="fill" type="checkbox" name="" value="" onclick="fillShipping(this.checked)">
+          </div>
+          <div class="">
+            First Name: <input id="ship_first_name" type="text" name="ship_first_name">
+          </div>
+          <div class="">
+            Last Name: <input id="ship_last_name" type="text" name="ship_last_name">
+          </div>
+          <div class="">
+            Address: <input id="ship_address" type="text" name="ship_address">
+          </div>
+          <div class="">
+            City: <input id="ship_city" type="text" name="ship_city">
+          </div>
+          <div class="">
+            State: <input id="ship_state" type="text" name="ship_state">
+          </div>
+          <div class="">
+            Zip Code: <input id="ship_zip" type="number" name="ship_zip">
+          </div>
+        </fieldset>
+        <input class="submit" type="submit" name="" value="Place Order">
+        <!-- <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_eUkW9KjYDyZ27llrY7RMGhgl"
+          data-amount="{{stripe_total}}"
+          data-name="Silkroad"
+          data-description="Widget"
+          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-locale="auto">
+        </script> -->
+      </form>
+    </div>
+    <script type="text/javascript" src="https://js.stripe.com/v2/" charset="utf-8"></script>
+    <script type="text/javascript">
+      function fillShipping(checked) {
+        if (checked) {
+          document.getElementById('ship_first_name').value = document.getElementById('bill_first_name').value;
+          document.getElementById('ship_last_name').value = document.getElementById('bill_last_name').value;
+          document.getElementById('ship_address').value = document.getElementById('bill_address').value;
+          document.getElementById('ship_city').value = document.getElementById('bill_city').value;
+          document.getElementById('ship_state').value = document.getElementById('bill_state').value;
+          document.getElementById('ship_zip').value = document.getElementById('bill_zip').value;
+        }
+        else {
+          document.getElementById('ship_first_name').value = '';
+          document.getElementById('ship_last_name').value = '';
+          document.getElementById('ship_address').value = '';
+          document.getElementById('ship_city').value = '';
+          document.getElementById('ship_state').value = '';
+          document.getElementById('ship_zip').value = '';
+        }
+      };
+
+      Stripe.setPublishableKey('pk_test_eUkW9KjYDyZ27llrY7RMGhgl');
+
+      $(function () {
+        var $form = $('#payment-form');
+        $form.submit(function (event) {
+          // Disable the submit button to prevent repeated clicks:
+          $form.find('.submit').prop('disabled', true);
+
+          // Request a token from Stripe:
+          Stripe.card.createToken($form, stripeResponseHandler);
+
+          // Prevent the form from being submitted:
+          return false;
+        });
+      });
+
+      function stripeResponseHandler(status, response) {
+        // Grab the form:
+        var $form = $('#payment-form');
+
+        if (response.error) { // Problem!
+
+          // Show the errors on the form
+          $form.find('.payment-errors').text(response.error.message);
+          $form.find('.submit').prop('disabled', false); // Re-enable submission
+
+        }
+        else { // Token was created!
+
+          // Get the token ID:
+          var token = response.id;
+
+          // Insert the token into the form so it gets submitted to the server:
+          $form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+          // Submit the form:
+          $form.get(0).submit();
+        };
+      };
+    </script>
+  </body>
+</html>

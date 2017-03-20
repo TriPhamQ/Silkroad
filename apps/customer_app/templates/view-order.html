@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>User Dashboard</title>
+    <title>View Order</title>
   </head>
   <body>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
@@ -39,37 +39,29 @@
 			<table>
 				<thead>
 					<tr>
-						<th>Order ID</th>
-						<th>Total</th>
-            <th>Items</th>
-						<th>Shipping Address</th>
-						<th>Ordered date</th>
+            <th>Image</th>
+						<th>Name</th>
+            <th>Description</th>
+            <th>Quantity</th>
 						<th>Order Status</th>
-            <th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					{% for order in orders %}
-						<tr>
-							<td><a href="{% url 'view_order' order_id=order.id %}">{{order.id}}</a></td>
-							<td>$ {{order.total}}</td>
+          {% for item in order.orderofproduct.all %}
+  					<tr>
               <td>
-                <ul>
-                  {% for item in order.orderofproduct.all %}
-                    <li>{{item.product.name}} ({{item.quantity}}): ${{item.product.price}} each</li>
-                  {% endfor %}
-                </ul>
+                {% for image in item.product.imageofproduct.all %}
+                  {% if image.main == True %}
+                    <a href="{% url 'product_page' product_id=item.product.id %}"><img src="{{image.image.url}}" height="100" width="100" alt=""></a>
+                  {% endif %}
+                {% endfor %}
               </td>
-							<td>{{order.shipping.address}}, {{order.shipping.city}}, {{order.shipping.state}} {{order.shipping.zipcode}}</td>
-							<td>{{order.added_at}}</td>
-							<td>{{order.status}}</td>
-              <td>
-                {% if order.status == "Order in Process" %}
-                  <a href="{% url 'cancel_order' order_id=order.id %}">Cancel</a>
-                {% endif %}
-              </td>
-						</tr>
-					{% endfor %}
+              <td>{{item.product.name}}</td>
+              <td>{{item.product.description}}</td>
+              <td>{{item.quantity}}</td>
+  						<td>{{order.status}}</td>
+  					</tr>
+          {% endfor %}
 				</tbody>
 			</table>
 		</div>
