@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect, reverse
 from .models import Category, Product, Image
-import os
+from ..customer_app.models import Cart, Order, OrderProduct, BillingAddress, ShippingAddress
+from ..login_registration_app.models import User
+import os, stripe
 
 # App root
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+# Stripe
+stripe.api_key = "sk_test_rcBDHXKJDHEK0uSNnRiLsorp"
 
 # Create your views here.
 def admin(request):
@@ -41,7 +46,35 @@ def orders(request):
         return redirect('/login_registration')
     else:
         if request.session['logged_user'] == 1:
-            return render(request, 'orders.html')
+            orders = Order.objects.all()
+            context = {
+                'orders': orders
+            }
+            return render(request, 'orders.html', context)
+        else:
+            return redirect('/')
+
+def order_status_update(request):
+    if 'logged_user' not in request.session:
+        return redirect('/login_registration')
+    else:
+        if request.session['logged_user'] == 1:
+            order = Order.objects.get(id = request.GET['order_id'])
+            order.status = request.GET['status']
+            order.save()
+            if order.status == "Refunded":
+                restock_items = OrderProduct.objects.filter(order = order)
+                for item in restock_items:
+                    item.product.inventory += item.quantity
+                    item.product.save()
+                stripe.Refund.create(
+                    charge = order.stripe_id
+                )
+            orders = Order.objects.all()
+            context = {
+                'orders': orders
+            }
+            return render(request, 'orders.html', context)
         else:
             return redirect('/')
 
