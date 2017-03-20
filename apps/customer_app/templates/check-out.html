@@ -154,43 +154,46 @@
         <fieldset>
           <legend>Billing Address</legend>
           <div class="">
-            First Name: <input type="text" name="bill_first_name">
+            First Name: <input id="bill_first_name" type="text" name="bill_first_name">
           </div>
           <div class="">
-            Last Name: <input type="text" name="bill_last_name">
+            Last Name: <input id="bill_last_name" type="text" name="bill_last_name">
           </div>
           <div class="">
-            Address: <input class="address_line1" type="text" name="bill_address" data-stripe="address_line1">
+            Address: <input id="bill_address" class="address_line1" type="text" name="bill_address" data-stripe="address_line1">
           </div>
           <div class="">
-            City: <input class="address_city" type="text" name="bill_city" data-stripe="address_city">
+            City: <input id="bill_city" class="address_city" type="text" name="bill_city" data-stripe="address_city">
           </div>
           <div class="">
-            State: <input class="address_state" type="text" name="bill_state" data-stripe="address_state">
+            State: <input id="bill_state" class="address_state" type="text" name="bill_state" data-stripe="address_state">
           </div>
           <div class="">
-            Zip: <input class="address_zip" type="text" size="5" maxlength="5" name="bill_zip">
+            Zip: <input id="bill_zip" class="address_zip" type="text" size="5" maxlength="5" name="bill_zip">
           </div>
         </fieldset>
         <fieldset>
           <legend>Shipping Address</legend>
           <div class="">
-            First Name: <input type="text" name="ship_first_name">
+            Same as billing address <input class="fill" type="checkbox" name="" value="" onclick="fillShipping(this.checked)">
           </div>
           <div class="">
-            Last Name: <input type="text" name="ship_last_name">
+            First Name: <input id="ship_first_name" type="text" name="ship_first_name">
           </div>
           <div class="">
-            Address: <input type="text" name="ship_address">
+            Last Name: <input id="ship_last_name" type="text" name="ship_last_name">
           </div>
           <div class="">
-            City: <input type="text" name="ship_city">
+            Address: <input id="ship_address" type="text" name="ship_address">
           </div>
           <div class="">
-            State: <input type="text" name="ship_state">
+            City: <input id="ship_city" type="text" name="ship_city">
           </div>
           <div class="">
-            Zip Code: <input type="number" name="ship_zip">
+            State: <input id="ship_state" type="text" name="ship_state">
+          </div>
+          <div class="">
+            Zip Code: <input id="ship_zip" type="number" name="ship_zip">
           </div>
         </fieldset>
         <input class="submit" type="submit" name="" value="Place Order">
@@ -207,6 +210,25 @@
     </div>
     <script type="text/javascript" src="https://js.stripe.com/v2/" charset="utf-8"></script>
     <script type="text/javascript">
+      function fillShipping(checked) {
+        if (checked) {
+          document.getElementById('ship_first_name').value = document.getElementById('bill_first_name').value;
+          document.getElementById('ship_last_name').value = document.getElementById('bill_last_name').value;
+          document.getElementById('ship_address').value = document.getElementById('bill_address').value;
+          document.getElementById('ship_city').value = document.getElementById('bill_city').value;
+          document.getElementById('ship_state').value = document.getElementById('bill_state').value;
+          document.getElementById('ship_zip').value = document.getElementById('bill_zip').value;
+        }
+        else {
+          document.getElementById('ship_first_name').value = '';
+          document.getElementById('ship_last_name').value = '';
+          document.getElementById('ship_address').value = '';
+          document.getElementById('ship_city').value = '';
+          document.getElementById('ship_state').value = '';
+          document.getElementById('ship_zip').value = '';
+        }
+      };
+
       Stripe.setPublishableKey('pk_test_eUkW9KjYDyZ27llrY7RMGhgl');
 
       $(function () {

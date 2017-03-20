@@ -345,8 +345,6 @@ def place_order(request):
             shipping = 0.00
         total = round(tax + float(raw_total) + float(shipping), 2)
         stripe_total = round((tax + float(raw_total) + float(shipping))*100, 2)
-        print(token)
-        print(stripe_total)
         if len(error) < 1:
             print("Creating order")
             charge = stripe.Charge.create(
@@ -356,7 +354,6 @@ def place_order(request):
                 source = token,
             )
             if charge:
-                print(stripe.Balance.retrieve())
                 billing_address = BillingAddress.objects.create(
                     first_name = form['bill_first_name'],
                     last_name = form['bill_last_name'],
@@ -366,12 +363,12 @@ def place_order(request):
                     zipcode = form['bill_zip']
                 )
                 shipping_address = ShippingAddress.objects.create(
-                    first_name = form['bill_first_name'],
-                    last_name = form['bill_last_name'],
-                    address = form['bill_address'],
-                    city = form['bill_city'],
-                    state = form['bill_state'],
-                    zipcode = form['bill_zip']
+                    first_name = form['ship_first_name'],
+                    last_name = form['ship_last_name'],
+                    address = form['ship_address'],
+                    city = form['ship_city'],
+                    state = form['ship_state'],
+                    zipcode = form['ship_zip']
                 )
                 order = Order.objects.create(
                     user = user,
