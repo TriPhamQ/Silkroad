@@ -13,7 +13,6 @@ urlpatterns = [
     url(r'^restart_sale_product/(?P<product_id>\d+)$', views.restart_sale_product, name = 'restart_sale_product'),
     url(r'^edit_product/(?P<product_id>\d+)$', views.edit_product, name = 'edit_product'),
     url(r'^submit_edited_product/(?P<product_id>\d+)$', views.submit_edited_product, name = 'submit_edited_product'),
-    url(r'^order-status-update$', views.order_status_update, name = 'order_status_update'),
     url(r'^clear_db$', views.clear_db, name = 'clear_db')
 ]
 

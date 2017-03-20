@@ -5,73 +5,32 @@
     <title>User Dashboard</title>
   </head>
   <body>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
     <div class="nav">
-      <nav>
-				<div class="">
-					<a href="/" class="brand-logo center">Silkroad</a>
-          {% if logged_user == 1%}
-						<ul class="left">
-							<li><a href="/admin">Admin</a></li>
-						</ul>
-          {% endif %}
-          {% if logged_user != 0 %}
-            <ul class="left">
-              <li><a href="/user">User Dashboard</a></li>
-            </ul>
-						<ul class="right">
-							<li><a href="{% url 'signout' %}">Log out</a></li>
-							<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
-						</ul>
-          {% endif %}
-          {% if logged_user == 0 %}
-						<ul class="right">
-							<li><a href="{% url 'login_registration' %}">Log In</a></li>
-						</ul>
-          {% endif %}
-				</div>
-      </nav>
+        <nav>
+					<div class="nav-wrapper brown darken-4">
+						<a href="/" class="brand-logo center">Silkroad</a>
+              {% if logged_user == 1%}
+    						<ul class="left">
+    							<li><a href="/admin">Admin</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user != 1 and logged_user != 0 %}
+    						<ul class="left">
+    							<li><a href="/user">User Dashboard</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user != 0 %}
+    						<ul class="right">
+    							<li><a href="{%url 'signout' %}">Log out</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user == 0 %}
+    						<ul class="right">
+    							<li><a href="{%url 'login_registration' %}">Log In</a></li>
+    						</ul>
+              {% endif %}
+					</div>
+        </nav>
     </div>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-		<!-- Orders -->
-		<div class="">
-			<table>
-				<thead>
-					<tr>
-						<th>Order ID</th>
-						<th>Total</th>
-            <th>Items</th>
-						<th>Shipping Address</th>
-						<th>Ordered date</th>
-						<th>Order Status</th>
-            <th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for order in orders %}
-						<tr>
-							<td><a href="{% url 'view_order' order_id=order.id %}">{{order.id}}</a></td>
-							<td>$ {{order.total}}</td>
-              <td>
-                <ul>
-                  {% for item in order.orderofproduct.all %}
-                    <li>{{item.product.name}} ({{item.quantity}}): ${{item.product.price}} each</li>
-                  {% endfor %}
-                </ul>
-              </td>
-							<td>{{order.shipping.address}}, {{order.shipping.city}}, {{order.shipping.state}} {{order.shipping.zipcode}}</td>
-							<td>{{order.added_at}}</td>
-							<td>{{order.status}}</td>
-              <td>
-                {% if order.status == "Order in Process" %}
-                  <a href="{% url 'cancel_order' order_id=order.id %}">Cancel</a>
-                {% endif %}
-              </td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
   </body>
 </html>

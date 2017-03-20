@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import User
-from ..admin_app.models import Product
-from ..customer_app.models import Cart
 import re, bcrypt
 
 # Create your views here.
@@ -37,21 +35,6 @@ def login(request):
     user = User.objects.login(request.POST)
     if user:
         request.session['logged_user'] = user.id
-        if 'product_id' in request.session:
-            product = Product.objects.get(id = int(request.session['product_id']))
-            if int(request.session['product_quantity']) <= product.inventory:
-                user = User.objects.get(id = request.session['logged_user'])
-                try:
-                    item = Cart.objects.get(user = user, product = product)
-                except:
-                    item = None
-                if item:
-                    item.quantity += int(request.session['product_quantity'])
-                    item.save()
-                else:
-                    item = Cart.objects.create(quantity = request.session['product_quantity'], user = user, product = product)
-            del request.session['product_id']
-            del request.session['product_quantity']
         if user.id == 1:
             return redirect('/admin')
         else:
