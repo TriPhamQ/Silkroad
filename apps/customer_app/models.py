@@ -18,6 +18,7 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     billing = models.ForeignKey('BillingAddress', related_name='billto')
     shipping = models.ForeignKey('ShippingAddress', related_name='shipto')
+    stripe_id = models.CharField(max_length=30, blank=True, null=True)
 
 class OrderProduct(models.Model):
     quantity = models.PositiveSmallIntegerField(default=1)

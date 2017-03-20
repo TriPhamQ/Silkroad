@@ -2,10 +2,17 @@ from django.shortcuts import render, redirect, reverse
 from .models import User, Category, Product, Image, Cart, Order, OrderProduct, BillingAddress, ShippingAddress
 import os, math, stripe
 
+# Stripe
+stripe.api_key = "sk_test_rcBDHXKJDHEK0uSNnRiLsorp"
+
 # Create your views here.
 def index(request):
     # Use this next line to clear cart while test
     # Cart.objects.all().delete()
+    # Order.objects.all().delete()
+    # OrderProduct.objects.all().delete()
+    # BillingAddress.objects.all().delete()
+    # ShippingAddress.objects.all().delete()
     if 'logged_user' not in request.session:
         logged_user = 0
     else:
@@ -54,6 +61,7 @@ def browse(request, category_name, current_page):
     product_end = (int(current_page))*page_size
     max_pages = math.ceil(len(products)/page_size)
     products_out = Product.objects.filter(category = category).filter(ongoing = True)[product_start:product_end]
+    categories = Category.objects.all()
     try:
         user = User.objects.get(id = logged_user)
     except:
@@ -64,12 +72,14 @@ def browse(request, category_name, current_page):
         for item in range (0, cart.count()):
             cart_item += cart[item].quantity
         context = {
+            'categories': categories,
             'cart_item': cart_item,
             'logged_user': logged_user,
             'products': products_out
         }
     else:
         context = {
+            'categories': categories,
             'logged_user': logged_user,
             'products': products_out
         }
@@ -324,7 +334,6 @@ def place_order(request):
         user = None
     if user:
         form = request.POST
-        stripe.api_key = "sk_test_rcBDHXKJDHEK0uSNnRiLsorp"
         token = request.POST['stripeToken']
         cart = Cart.objects.filter(user = user)
         cart_item = 0
@@ -376,7 +385,8 @@ def place_order(request):
                     tax = tax,
                     shipping_cost = shipping,
                     billing = billing_address,
-                    shipping = shipping_address
+                    shipping = shipping_address,
+                    stripe_id = charge['id']
                 )
                 for item in range (0, cart.count()):
                     OrderProduct.objects.create(
@@ -461,9 +471,16 @@ def cancel_order(request, order_id):
             cart_item += cart[item].quantity
         order_to_cancel = Order.objects.get(id = order_id)
         if order_to_cancel:
-            order_to_cancel.status = "Canceled"
+            stripe.api_key = "sk_test_rcBDHXKJDHEK0uSNnRiLsorp"
+            restock_items = OrderProduct.objects.filter(order = order_to_cancel)
+            for item in restock_items:
+                item.product.inventory += item.quantity
+                item.product.save()
+            stripe.Refund.create(
+                charge = order_to_cancel.stripe_id
+            )
+            order_to_cancel.status = "Cancelled"
             order_to_cancel.save()
-            # Request refund
         orders = Order.objects.filter(user = user)
         context = {
             'logged_user': logged_user,

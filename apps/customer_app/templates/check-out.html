@@ -118,6 +118,8 @@
         </tbody>
       </table>
     </div>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+		<!-- Cost -->
     <div class="">
       Raw Total: {{raw_total}}
     </div>
@@ -130,6 +132,8 @@
     <div class="">
       Total: {{total}}
     </div>
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+		<!-- Payment Form -->
     <div class="">
       <form id="payment-form" class="" action="{% url 'place_order' %}" method="post">
         {% csrf_token %}

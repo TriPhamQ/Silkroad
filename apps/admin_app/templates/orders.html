@@ -49,16 +49,16 @@
 							<td>{{order.shipping.address}}, {{order.shipping.city}}, {{order.shipping.state}} {{order.shipping.zipcode}}</td>
 							<td>{{order.added_at}}</td>
 							<td>
-								{% if order.status != "Cancelled" %}
+								{% if order.status != "Cancelled" and order.status != "Refunded" %}
 									<select class="order_status" name="status">
 					          <option selected='selected' value="{{order.status}}">{{order.status}}</option>
 					          <option value="Order in Process">Order in Process</option>
 					          <option value="Shipped">Shipped</option>
-					          <option value="Cancelled">Cancelled</option>
+					          <option value="Refunded">Refunded</option>
 					        </select>
 									<input type="hidden" value="{{order.id}}">
 								{% endif %}
-								{% if order.status == "Cancelled" %}
+								{% if order.status == "Cancelled" or order.status == "Refunded" %}
 									{{order.status}}
 								{% endif %}
 							</td>
@@ -69,10 +69,14 @@
 		</div>
 		<script type="text/javascript">
 			$(document).ready(function () {
-				$(".order_status").change(function () {
-					$( "select option:selected" )
-						var order_id = $(this).siblings('input').val()
-						var status = $(this).val()
+				$(".order_status").change(function (e) {
+					// e.preventDefault();
+					if (confirm("Are you sure?")) {
+						$( "select option:selected" )
+							var order_id = $(this).siblings('input').val()
+							var status = $(this).val()
+							console.log(status)
+						}
 						$.ajax({
 								type: 'GET',
 								url: '{% url 'order_status_update' %}',
@@ -81,6 +85,9 @@
 									'order_id': order_id
 								}
 						});
+						if (status == "Refunded") {
+							$("select").prop("disabled", true);
+						}
 				})
 			});
 		</script>
