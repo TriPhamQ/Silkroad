@@ -1,178 +1,178 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>User Dashboard</title>
-    {%load static %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <title>User Dashboard</title>
+        {%load static %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
-  </head>
-  <body>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
-    <section class="theme_menu stricky">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="main-logo">
-              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
+        <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
+    </head>
+    <body>
+        <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+        <!-- Navbar -->
+        <section class="theme_menu stricky">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="main-logo">
+                            <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-md-8 menu-column">
+                        <nav class="menuzord" id="main_menu">
+                            {% if logged_user == 1%}
+                                <ul class="menuzord-menu">
+                                    <li><a href="/admin">Admin</a></li>
+                                </ul>
+                            {% endif %}
+                            {% if logged_user != 0 %}
+                                <ul class="menuzord-menu">
+                                    <li><a href="/user">User Dashboard</a></li>
+                                    <li><a href="{% url 'signout' %}">Log out</a></li>
+                                    <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+                                </ul>
+                            {% endif %}
+                            {% if logged_user == 0 %}
+                                <ul class="menuzord-menu">
+                                    <li><a href="{% url 'login_registration' %}">Log In</a></li>
+                                </ul>
+                            {% endif %}
+                        </nav>
+                    </div>
+                    <div class="right-column">
+                        <div class="right-area">
+                            <div class="nav_side_content">
+                                <div class="search_option">
+                                    <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
+                                        <input type="text" placeholder="Search...">
+                                        <button><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-8 menu-column">
-            <nav class="menuzord" id="main_menu">
-              {% if logged_user == 1%}
-    						<ul class="menuzord-menu">
-    							<li><a href="/admin">Admin</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user != 0 %}
-                <ul class="menuzord-menu">
-                  <li><a href="/user">User Dashboard</a></li>
-    							<li><a href="{% url 'signout' %}">Log out</a></li>
-                  <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user == 0 %}
-    						<ul class="menuzord-menu">
-    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
-    						</ul>
-              {% endif %}
-            </nav>
-          </div>
-          <div class="right-column">
-            <div class="right-area">
-              <div class="nav_side_content">
-                <div class="search_option">
-                  <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
-                  <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
-                    <input type="text" placeholder="Search...">
-                    <button><i class="fa fa-search" aria-hidden="true"></i></button>
-                  </form>
-               </div>
-             </div>
+        </section>
+        <div class="inner-banner text-center">
+            <div class="container">
+                <div class="box">
+                    <h3>Shopping Cart</h3>
+                </div><!-- /.box -->
+                <div class="breadcumb-wrapper">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <ul class="list-inline link-list">
+                                <li><a href="/">Homepage</a></li>
+                                <li>Dashboard</li>
+                            </ul>
+                        </div>
+                        <div class="pull-right">
+                            <a href="#" class="get-qoute"><i class="fa fa-share-alt"></i>share</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </section>
-    <div class="inner-banner text-center">
-      <div class="container">
-        <div class="box">
-          <h3>Shopping Cart</h3>
-        </div><!-- /.box -->
-        <div class="breadcumb-wrapper">
-          <div class="clearfix">
-            <div class="pull-left">
-              <ul class="list-inline link-list">
-                <li><a href="/">Homepage</a></li>
-                <li>Dashboard</li>
-              </ul>
+        <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+        <!-- Orders -->
+        <section class="sec-padd-top">
+            <div class="container">
+                <div class="cart-outer">
+                    <div class="table-outer">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Total</th>
+                                    <th>Items</th>
+                                    <th>Shipping Address</th>
+                                    <th>Ordered date</th>
+                                    <th>Order Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                    <tr>
+                                        <td><a href="{% url 'view_order' order_id=order.id %}">{{order.id}}</a></td>
+                                        <td>$ {{order.total}}</td>
+                                        <td>
+                                            <ul>
+                                                {% for item in order.orderofproduct.all %}
+                                                    <li>{{item.product.name}} ({{item.quantity}}): ${{item.product.price}} each</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                        <td>{{order.shipping.address}}, {{order.shipping.city}}, {{order.shipping.state}} {{order.shipping.zipcode}}</td>
+                                        <td>{{order.added_at}}</td>
+                                        <td>{{order.status}}</td>
+                                        <td>
+                                            {% if order.status == "Order in Process" %}
+                                                <a class="thm-btn inverse" href="{% url 'cancel_order' order_id=order.id %}">Cancel</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="pull-right">
-              <a href="#" class="get-qoute"><i class="fa fa-share-alt"></i>share</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-		<!-- Orders -->
-    <section class="sec-padd-top">
-      <div class="container">
-        <div class="cart-outer">
-          <div class="table-outer">
-      			<table class="cart-table">
-      				<thead>
-      					<tr>
-      						<th>Order ID</th>
-      						<th>Total</th>
-                  <th>Items</th>
-      						<th>Shipping Address</th>
-      						<th>Ordered date</th>
-      						<th>Order Status</th>
-                  <th>Action</th>
-      					</tr>
-      				</thead>
-      				<tbody>
-      					{% for order in orders %}
-      						<tr>
-      							<td><a href="{% url 'view_order' order_id=order.id %}">{{order.id}}</a></td>
-      							<td>$ {{order.total}}</td>
-                    <td>
-                      <ul>
-                        {% for item in order.orderofproduct.all %}
-                          <li>{{item.product.name}} ({{item.quantity}}): ${{item.product.price}} each</li>
-                        {% endfor %}
-                      </ul>
-                    </td>
-      							<td>{{order.shipping.address}}, {{order.shipping.city}}, {{order.shipping.state}} {{order.shipping.zipcode}}</td>
-      							<td>{{order.added_at}}</td>
-      							<td>{{order.status}}</td>
-                    <td>
-                      {% if order.status == "Order in Process" %}
-                        <a class="thm-btn inverse" href="{% url 'cancel_order' order_id=order.id %}">Cancel</a>
-                      {% endif %}
-                    </td>
-      						</tr>
-      					{% endfor %}
-      				</tbody>
-      			</table>
-      		</div>
-        </div>
-      </div>
-    </section>
-    <!-- jQuery js -->
-    <script src="{% static 'js/jquery.js' %}"></script>
-    <!-- bootstrap js -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!-- jQuery ui js -->
-    <script src="{% static 'js/jquery-ui.js' %}"></script>
-    <!-- owl carousel js -->
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <!-- jQuery validation -->
-    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+        </section>
+        <!-- jQuery js -->
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <!-- bootstrap js -->
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <!-- jQuery ui js -->
+        <script src="{% static 'js/jquery-ui.js' %}"></script>
+        <!-- owl carousel js -->
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <!-- jQuery validation -->
+        <script src="{% static 'js/jquery.validate.min.js' %}"></script>
 
-    <!-- mixit up -->
-    <script src="{% static 'js/wow.js' %}"></script>
-    <script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
-    <script src="{% static 'js/jquery.fitvids.js' %}"></script>
-    <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
-    <script src="{% static 'js/menuzord.js' %}"></script>
+        <!-- mixit up -->
+        <script src="{% static 'js/wow.js' %}"></script>
+        <script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
+        <script src="{% static 'js/jquery.fitvids.js' %}"></script>
+        <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+        <script src="{% static 'js/menuzord.js' %}"></script>
 
-    <!-- revolution slider js -->
-    <script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
-    <script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
+        <!-- revolution slider js -->
+        <script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
+        <script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
 
-    <!-- fancy box -->
-    <script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
-    <script src="{% static 'js/isotope.js' %}"></script>
-    <script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
-    <script src="{% static 'js/nouislider.js' %}"></script>
-    <script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
-    <script src="{% static 'js/SmoothScroll.js' %}"></script>
-    <script src="{% static 'js/jquery.appear.js' %}"></script>
-    <script src="{% static 'js/jquery.countTo.js' %}"></script>
-    <script src="{% static 'js/jquery.flexslider.js' %}"></script>
-    <script src="{% static 'js/imagezoom.js' %}"></script>
-    <script src="{% static 'js/bxslider.js' %}"></script>
-    <script id="map-script" src="{% static 'js/default-map.js' %}"></script>
-    <script src="{% static 'js/custom.js' %}"></script>
-  </body>
+        <!-- fancy box -->
+        <script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
+        <script src="{% static 'js/isotope.js' %}"></script>
+        <script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
+        <script src="{% static 'js/nouislider.js' %}"></script>
+        <script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
+        <script src="{% static 'js/SmoothScroll.js' %}"></script>
+        <script src="{% static 'js/jquery.appear.js' %}"></script>
+        <script src="{% static 'js/jquery.countTo.js' %}"></script>
+        <script src="{% static 'js/jquery.flexslider.js' %}"></script>
+        <script src="{% static 'js/imagezoom.js' %}"></script>
+        <script src="{% static 'js/bxslider.js' %}"></script>
+        <script id="map-script" src="{% static 'js/default-map.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+    </body>
 </html>
