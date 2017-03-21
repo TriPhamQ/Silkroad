@@ -3,67 +3,186 @@
   <head>
     <meta charset="utf-8">
     <title>View Order</title>
+    {%load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
   </head>
   <body>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
     <!-- Navbar -->
-    <div class="nav">
-      <nav>
-				<div class="">
-					<a href="/" class="brand-logo center">Silkroad</a>
-          {% if logged_user == 1%}
-						<ul class="left">
-							<li><a href="/admin">Admin</a></li>
-						</ul>
-          {% endif %}
-          {% if logged_user != 0 %}
-            <ul class="left">
-              <li><a href="/user">User Dashboard</a></li>
-            </ul>
-						<ul class="right">
-							<li><a href="{% url 'signout' %}">Log out</a></li>
-							<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
-						</ul>
-          {% endif %}
-          {% if logged_user == 0 %}
-						<ul class="right">
-							<li><a href="{% url 'login_registration' %}">Log In</a></li>
-						</ul>
-          {% endif %}
-				</div>
-      </nav>
-    </div>
+    <section class="theme_menu stricky">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="main-logo">
+              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+            </div>
+          </div>
+          <div class="col-md-8 menu-column">
+            <nav class="menuzord" id="main_menu">
+              {% if logged_user == 1%}
+    						<ul class="menuzord-menu">
+    							<li><a href="/admin">Admin</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user != 0 %}
+                <ul class="menuzord-menu">
+                  <li><a href="/user">User Dashboard</a></li>
+    							<li><a href="{% url 'signout' %}">Log out</a></li>
+                  <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+    						</ul>
+              {% endif %}
+              {% if logged_user == 0 %}
+    						<ul class="menuzord-menu">
+    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
+    						</ul>
+              {% endif %}
+            </nav>
+          </div>
+          <div class="right-column">
+            <div class="right-area">
+              <div class="nav_side_content">
+                <div class="search_option">
+                  <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
+                  <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fa fa-search" aria-hidden="true"></i></button>
+                  </form>
+               </div>
+             </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- Orders -->
-		<div class="">
-			<table>
-				<thead>
-					<tr>
-            <th>Image</th>
-						<th>Name</th>
-            <th>Description</th>
-            <th>Quantity</th>
-						<th>Order Status</th>
-					</tr>
-				</thead>
-				<tbody>
-          {% for item in order.orderofproduct.all %}
-  					<tr>
-              <td>
-                {% for image in item.product.imageofproduct.all %}
-                  {% if image.main == True %}
-                    <a href="{% url 'product_page' product_id=item.product.id %}"><img src="{{image.image.url}}" height="100" width="100" alt=""></a>
-                  {% endif %}
-                {% endfor %}
-              </td>
-              <td>{{item.product.name}}</td>
-              <td>{{item.product.description}}</td>
-              <td>{{item.quantity}}</td>
-  						<td>{{order.status}}</td>
-  					</tr>
-          {% endfor %}
-				</tbody>
-			</table>
-		</div>
+    <section class="checkout-area">
+      <div class="container">
+        <div class="row">
+          <div class="">
+            <div class="table">
+              <div class="sec-title-two">
+                <h3>Order Summary</h3>
+              </div>
+        			<table class="cart-table">
+        				<thead class="cart-header">
+        					<tr>
+                    <th class="product-column">Your Products</th>
+                    <th>&nbsp;</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+        						<th>Order Status</th>
+        					</tr>
+        				</thead>
+        				<tbody>
+                  {% for item in order.orderofproduct.all %}
+          					<tr>
+                      <td colspan="2" class="product-column">
+                        <div class="column-box">
+                          <div class="prod-thumb">
+                            {% for image in item.product.imageofproduct.all %}
+                              {% if image.main == True %}
+                                <a href="{% url 'product_page' product_id=item.product.id %}"><img src="{{image.image.url}}" height="100" width="100" alt=""></a>
+                              {% endif %}
+                            {% endfor %}
+                          </div>
+                          <div class="product-title">
+                            <h3>{{item.product.name}}</h3>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{{item.product.description}}</td>
+                      <td class="qty">{{item.quantity}}</td>
+          						<td>{{order.status}}</td>
+          					</tr>
+                  {% endfor %}
+        				</tbody>
+        			</table>
+        		</div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="cart-total">
+              <div class="sec-title-two">
+                <h3>Cart Totals</h3>
+              </div>
+              <ul class="cart-total-table">
+                <li class="clearfix">
+                  <span class="col col-title">Order Status</span>
+                  <span class="col">{{order.status}}</span>
+                </li>
+                <li class="clearfix">
+                  <span class="col col-title">Shipping and Handling</span>
+                  <span class="col">${{order.shipping_cost}}</span>
+                </li>
+                <li class="clearfix">
+                  <span class="col col-title">Tax</span>
+                  <span class="col">${{order.tax}}</span>
+                </li>
+                <li class="clearfix">
+                  <span class="col col-title">Order Total</span>
+                  <span class="col">${{order.total}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- jQuery js -->
+		<script src="{% static 'js/jquery.js' %}"></script>
+		<!-- bootstrap js -->
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<!-- jQuery ui js -->
+		<script src="{% static 'js/jquery-ui.js' %}"></script>
+		<!-- owl carousel js -->
+		<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+		<!-- jQuery validation -->
+		<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+
+		<!-- mixit up -->
+		<script src="{% static 'js/wow.js' %}"></script>
+		<script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
+		<script src="{% static 'js/jquery.fitvids.js' %}"></script>
+		<script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+		<script src="{% static 'js/menuzord.js' %}"></script>
+
+		<!-- revolution slider js -->
+		<script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
+		<script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
+
+		<!-- fancy box -->
+		<script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
+		<script src="{% static 'js/isotope.js' %}"></script>
+		<script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
+		<script src="{% static 'js/nouislider.js' %}"></script>
+		<script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
+		<script src="{% static 'js/SmoothScroll.js' %}"></script>
+		<script src="{% static 'js/jquery.appear.js' %}"></script>
+		<script src="{% static 'js/jquery.countTo.js' %}"></script>
+		<script src="{% static 'js/jquery.flexslider.js' %}"></script>
+		<script src="{% static 'js/imagezoom.js' %}"></script>
+		<script src="{% static 'js/bxslider.js' %}"></script>
+		<script id="map-script" src="{% static 'js/default-map.js' %}"></script>
+		<script src="{% static 'js/custom.js' %}"></script>
   </body>
 </html>

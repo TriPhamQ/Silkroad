@@ -46,7 +46,7 @@ def orders(request):
         return redirect('/login_registration')
     else:
         if request.session['logged_user'] == 1:
-            orders = Order.objects.all()
+            orders = Order.objects.all().order_by('status')
             context = {
                 'orders': orders
             }

@@ -6,7 +6,7 @@ import os, math, stripe
 stripe.api_key = "sk_test_rcBDHXKJDHEK0uSNnRiLsorp"
 
 # Page size
-page_size = 3
+page_size = 12
 
 # Create your views here.
 def index(request):
@@ -340,29 +340,6 @@ def change_quantity(request, product_id):
         item_to_change = cart.get(product_id = product_id)
         item_to_change.quantity = form['product_quantity']
         item_to_change.save()
-        cart = Cart.objects.filter(user = user)
-        error = []
-        for item in range (0, cart.count()):
-            cart_item += cart[item].quantity
-            raw_total += cart[item].quantity * cart[item].product.price
-            if cart[item].quantity > cart[item].product.inventory:
-                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
-        tax = round(float(raw_total)*0.075, 2)
-        if raw_total > 0:
-            shipping = 5.99
-        else:
-            shipping = 0.00
-        total = round(tax + float(raw_total) + float(shipping), 2)
-        print(error)
-        context = {
-            'error': error,
-            'cart_item': cart_item,
-            'cart': cart,
-            'raw_total': raw_total,
-            'tax': tax,
-            'shipping': shipping,
-            'total': total
-        }
         return redirect('/shopping-cart')
     else:
         return redirect('/')
@@ -378,32 +355,6 @@ def remove_cart_item(request, product_id):
         user = None
     if user:
         Cart.objects.get(user = user, product_id = product_id).delete()
-        cart_item = 0
-        raw_total = 0
-        form = request.POST
-        cart = Cart.objects.filter(user = user)
-        error = []
-        for item in range (0, cart.count()):
-            cart_item += cart[item].quantity
-            raw_total += cart[item].quantity * cart[item].product.price
-            if cart[item].quantity > cart[item].product.inventory:
-                error.append(""+cart[item].product.name+" only has "+str(cart[item].product.inventory)+" left in stock, please change quantity")
-        tax = round(float(raw_total)*0.075, 2)
-        if raw_total > 0:
-            shipping = 5.99
-        else:
-            shipping = 0.00
-        total = round(tax + float(raw_total) + float(shipping), 2)
-        print(error)
-        context = {
-            'error': error,
-            'cart_item': cart_item,
-            'cart': cart,
-            'raw_total': raw_total,
-            'tax': tax,
-            'shipping': shipping,
-            'total': total
-        }
         return redirect('/shopping-cart')
     else:
         return redirect('/')
@@ -483,6 +434,7 @@ def place_order(request):
                     change_inventory.inventory -= cart[item].quantity
                     change_inventory.save()
                 cart.delete()
+                return redirect('/user')
             return redirect('/check-out')
         else:
             print("Error")
@@ -504,7 +456,7 @@ def user(request):
         cart_item = 0
         for item in range (0, cart.count()):
             cart_item += cart[item].quantity
-        orders = Order.objects.filter(user = user)
+        orders = Order.objects.filter(user = user).order_by('-added_at')
         context = {
             'logged_user': logged_user,
             'cart_item': cart_item,
@@ -550,10 +502,6 @@ def cancel_order(request, order_id):
     except:
         user = None
     if user:
-        cart = Cart.objects.filter(user = user)
-        cart_item = 0
-        for item in range (0, cart.count()):
-            cart_item += cart[item].quantity
         order_to_cancel = Order.objects.get(id = order_id)
         if order_to_cancel:
             stripe.api_key = "sk_test_rcBDHXKJDHEK0uSNnRiLsorp"
@@ -566,13 +514,6 @@ def cancel_order(request, order_id):
             )
             order_to_cancel.status = "Cancelled"
             order_to_cancel.save()
-        orders = Order.objects.filter(user = user)
-        context = {
-            'logged_user': logged_user,
-            'cart_item': cart_item,
-            'cart': cart,
-            'orders': orders
-        }
-        return render(request, 'user-dashboard.html', context)
+        return redirect('/user')
     else:
         return redirect('/')

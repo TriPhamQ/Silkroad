@@ -85,7 +85,7 @@ body {
 h1,h2,h3,h4,h5,h6,p,ul { margin:0;padding: 0;}
 h1,h2,h3,h4,h5 {
   font-family: 'Poppins', sans-serif;
-} 
+}
 
 ul {list-style-type: none;}
 
@@ -448,16 +448,16 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 .video-image-box{
-  position:relative;  
+  position:relative;
 }
 
 .video-image-box .image{
-  position:relative;  
+  position:relative;
 }
 
 .video-image-box img{
   display:block;
-  width:100%; 
+  width:100%;
 }
 
 .video-image-box .image .overlay-link{
@@ -473,7 +473,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   -moz-transition:all 500ms ease;
   -webkit-transition:all 500ms ease;
   -ms-transition:all 500ms ease;
-  -o-transition:all 500ms ease; 
+  -o-transition:all 500ms ease;
 }
 
 .video-image-box .image .overlay-link:hover {
@@ -582,8 +582,8 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 
-#polyglotLanguageSwitcher a.current:link, 
-#polyglotLanguageSwitcher a.current:visited, 
+#polyglotLanguageSwitcher a.current:link,
+#polyglotLanguageSwitcher a.current:visited,
 #polyglotLanguageSwitcher a.current:active {
     position: relative;
     background-color: #162f3a;
@@ -900,7 +900,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 =============================================
     Rev Slider Wrapper style
 =============================================
@@ -957,10 +957,10 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 .rev_slider_wrapper .slide-content-box.last-slide p{
-  margin: 0;    
+  margin: 0;
 }
 .rev_slider_wrapper .slide-content-box.last-slide a{
-  margin: 0 8px;    
+  margin: 0 8px;
 }
 
 .rev_slider_wrapper .slotholder {
@@ -981,7 +981,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .tp-bannertimer {
   display: none;
-  
+
 }
 
 .rev_slider_wrapper .tparrows {
@@ -995,8 +995,8 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/************************** 
-* Inner Banner styles 
+/**************************
+* Inner Banner styles
 ***************************/
 .inner-banner {
   position: relative;
@@ -1080,7 +1080,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
   Main Footer
@@ -1109,11 +1109,11 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .main-footer .footer-column{
-  margin-bottom:30px; 
+  margin-bottom:30px;
 }
 
 .main-footer .footer-widget{
-  position:relative;  
+  position:relative;
 }
 
 .main-footer .footer-column h2{
@@ -1121,7 +1121,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   font-weight:700;
   text-transform:uppercase;
   margin-bottom:30px;
-  color:#a1c436;  
+  color:#a1c436;
 }
 
 
@@ -1201,7 +1201,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .main-footer .social-links a:hover{
   color:#a1c436;
-  border-color:#a1c436; 
+  border-color:#a1c436;
 }
 
 .main-footer .posts-widget .post{
@@ -1215,7 +1215,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 .main-footer .posts-widget .post:last-child{
   border-bottom:none;
   padding-bottom:0px;
-  margin-bottom:0px;  
+  margin-bottom:0px;
 }
 
 .main-footer .posts-widget .post .content{
@@ -1236,7 +1236,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .main-footer .posts-widget .post .content .post-thumb img{
   display:block;
-  width:100%; 
+  width:100%;
 }
 
 .main-footer .posts-widget .post h4{
@@ -1260,7 +1260,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .main-footer .posts-widget .post .time .fa{
-  padding-right:8px;  
+  padding-right:8px;
 }
 
 .main-footer .links-widget .list li{
@@ -1362,8 +1362,8 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/************************** 
-* why-choose styles 
+/**************************
+* why-choose styles
 ***************************/
 
 
@@ -1462,8 +1462,8 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/************************** 
-* default-blog styles 
+/**************************
+* default-blog styles
 ***************************/
 .blog-section {
 }
@@ -1634,7 +1634,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .large-blog-news .lower-content .text p{
-  margin-bottom:20px; 
+  margin-bottom:20px;
 }
 
 .large-blog-news .lower-content h4 {
@@ -1814,7 +1814,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .popular-post .item .post-thumb img{
     width:100%;
-    display:block;  
+    display:block;
 }
 
 
@@ -2174,7 +2174,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .post-author .inner-box .author-thumb img{
   display:block;
-  width:100%; 
+  width:100%;
 }
 
 .post-author h4{
@@ -2211,11 +2211,11 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .post-author .text a{
   color:#777777;
-  text-decoration:underline;  
+  text-decoration:underline;
 }
 
 .post-author .text a:hover{
-  color:#a8c41b;  
+  color:#a8c41b;
 }
 
 
@@ -2319,8 +2319,8 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/************************** 
-* 11. Project styles 
+/**************************
+* 11. Project styles
 ***************************/
 .latest-project {
   background: #f7f7f7;
@@ -2542,7 +2542,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
     Testimonials Section style
@@ -2718,7 +2718,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
     client Section style
@@ -2777,7 +2777,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
     whychoos-us Section style
@@ -2859,7 +2859,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   color: #f0f0f0;
 }
 
-/*** 
+/***
 
 ====================================================================
     service Section style
@@ -2920,12 +2920,12 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .service .item:hover .default-overlay-outer{
   top:0;
-  opacity:1;  
+  opacity:1;
 }
 
 .service .item .thm-btn {
   padding: 0 25px;
-  line-height: 34px; 
+  line-height: 34px;
 }
 
 .service .owl-carousel .owl-stage-outer {
@@ -2985,8 +2985,8 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/************************** 
- service-style3 styles 
+/**************************
+ service-style3 styles
 ***************************/
 
 
@@ -3352,7 +3352,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .tabs-section .column{
-  margin-bottom:30px; 
+  margin-bottom:30px;
 }
 
 .tabs-section .image-box img{
@@ -3450,7 +3450,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
     service-single Section style
@@ -3705,7 +3705,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
     about Section style
@@ -3736,7 +3736,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
     height: 100%;
     color: #9c9c9c;
     font-size: 20px;
-    text-align: center; 
+    text-align: center;
 }
 .accordion .acc-btn.active .left-icon {
     color: #fff;
@@ -3744,7 +3744,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .accordion .left-icon span {
     position: relative;
-    top: 18px;  
+    top: 18px;
 }
 
 .accordion .acc-btn {
@@ -3870,11 +3870,11 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-.about-faq .default-form input[type="text"], 
-.about-faq .default-form input[type="email"], 
-.about-faq .default-form input[type="password"], 
-.about-faq .default-form input[type="number"], 
-.about-faq .default-form select, 
+.about-faq .default-form input[type="text"],
+.about-faq .default-form input[type="email"],
+.about-faq .default-form input[type="password"],
+.about-faq .default-form input[type="number"],
+.about-faq .default-form select,
 .about-faq .default-form textarea {
     border: 1px solid #eaeaea;
     height: 50px;
@@ -3906,7 +3906,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   margin-bottom: 10px;
 }
 
-/*** 
+/***
 
 ====================================================================
   Fact Counter Section
@@ -3945,7 +3945,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   position:relative;
   margin-bottom:40px;
   text-align:center;
-  z-index:5;  
+  z-index:5;
 }
 .fact-counter .item {
   position: relative;
@@ -3988,7 +3988,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
   google map Section
@@ -4008,7 +4008,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 }
 
-/*** 
+/***
 
 ====================================================================
   contact Section
@@ -4079,12 +4079,12 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .comment-form .form-box{
-  padding:25px 25px 0px 25px; 
+  padding:25px 25px 0px 25px;
 }
 
 .default-form .form-group{
   position:relative;
-  margin-bottom:30px; 
+  margin-bottom:30px;
 }
 
 .default-form .comment-form .form-box .form-group{
@@ -4093,11 +4093,11 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .default-form.form-box .row{
   margin-left:-10px;
-  margin-right:-10px; 
+  margin-right:-10px;
 }
 
 .default-form.form-box .row .form-group{
-  padding:0px 0px;  
+  padding:0px 0px;
 }
 
 .default-form .form-group .field-label{
@@ -4180,7 +4180,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   margin-top: -11px;
 }
 
- 
+
 
 .default-form .bootstrap-select {
   background: none;
@@ -4319,7 +4319,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
  consultation style
@@ -4380,8 +4380,8 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   background: transparent;
 }
 
-.consultations .default-form .btn.focus, 
-.consultations .default-form .btn:focus, 
+.consultations .default-form .btn.focus,
+.consultations .default-form .btn:focus,
 .consultations .default-form .btn:hover {
   color: #fff;
 }
@@ -4470,7 +4470,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 /***
 ==============================
    8. Team Member styles
-============================== 
+==============================
 ***/
 
 
@@ -4520,7 +4520,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   transition: .7s ease;
 }
 
-    
+
 .single-team-member .img-box .overlay {
   position: absolute;
   left: 0;
@@ -4632,7 +4632,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 /***
 ==============================
    8. Team Member styles
-============================== 
+==============================
 ***/
 
 
@@ -4709,8 +4709,8 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/************************** 
-* Project styles 
+/**************************
+* Project styles
 ***************************/
 .single-project {
   padding-bottom: 30px;
@@ -4935,8 +4935,8 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/************************** 
-* Cart Page styles 
+/**************************
+* Cart Page styles
 ***************************/
 .cart-section {
   position: relative;
@@ -5339,7 +5339,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 =============================================
     Checkout Area style
 =============================================
@@ -5379,7 +5379,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   border: 1px solid #f7f7f7;
   display: block;
   padding: 20px 28px 21px;
-  position: relative; 
+  position: relative;
   margin-bottom: 60px;
 }
 .checkout-area .coupon:before {
@@ -5394,7 +5394,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 .checkout-area .coupon h5 {
   color: #252525;
   font-size: 16px;
-  font-weight: 300;  
+  font-weight: 300;
 }
 .checkout-area .coupon h5 a {
   color: #48c7ec;
@@ -5525,7 +5525,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   display: block;
   max-width: 100%;
 }
-.checkout-area .table .cart-table tbody tr .product-column .column-box .prod-thumb, 
+.checkout-area .table .cart-table tbody tr .product-column .column-box .prod-thumb,
 .checkout-area .table .cart-table tbody tr .product-column .column-box .product-title{
   display: table-cell;
   vertical-align: middle;
@@ -5674,7 +5674,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 =============================================
      shop style
 =============================================
@@ -5778,7 +5778,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 .single-shop-item {
-  
+
 }
 .single-shop-item .content-box a.cart-btn {
   position: relative;
@@ -5940,7 +5940,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 .recent_news_sidebar .single_news_sidebar {
   margin-bottom: 29px;
-} 
+}
 .recent_news_sidebar .img_holder img {
   width:75px;
   height:75px;
@@ -6158,7 +6158,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 =============================================
     page_pagination style
 =============================================
@@ -6191,7 +6191,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 =============================================
    Shop Single area  style
 =============================================
@@ -6272,7 +6272,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   margin-left: 10px;
 }
 .product-content-box .content-box .review-box {
-  margin: 0 0 10px;  
+  margin: 0 0 10px;
 }
 .product-content-box .content-box .review-box ul li {
   display: inline-block;
@@ -6343,7 +6343,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 .product-content-box .content-box .addto-cart-box {
-  
+
 }
 .product-content-box .content-box .addto-cart-box .input-group.bootstrap-touchspin {
     float: left;
@@ -6437,7 +6437,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .product-tab-box .tab-content {
-  
+
 }
 .single-review-box {
   margin-bottom: 10px;
@@ -6725,7 +6725,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
   awards Section
@@ -6788,7 +6788,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
   Login / Register Section
@@ -6801,21 +6801,21 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .register-section .sec-title{
-  margin-bottom:30px; 
+  margin-bottom:30px;
 }
 
 .register-section .sec-title h2{
   font-size:28px;
   padding-bottom:5px;
-  font-weight:600;  
+  font-weight:600;
 }
 
 .register-section .form-column{
-  margin-bottom:70px; 
+  margin-bottom:70px;
 }
 
 .styled-form{
-  position:relative;  
+  position:relative;
 }
 
 .styled-form .form-group{
@@ -6835,7 +6835,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 .checkout-section .styled-form .form-group{
   position:relative;
-  margin-bottom:20px; 
+  margin-bottom:20px;
 }
 
 .styled-form .form-group .check-box{
@@ -6917,7 +6917,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 .checkout-section .styled-form input[type="password"],
 .checkout-section .styled-form select{
   line-height:26px;
-  height:44px;  
+  height:44px;
 }
 
 .styled-form select{
@@ -6930,12 +6930,12 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .styled-form select option{
-  text-indent:20px; 
+  text-indent:20px;
 }
 
 .styled-form textarea{
   resize:none;
-  height:110px; 
+  height:110px;
 }
 
 .styled-form input:focus,
@@ -6947,11 +6947,11 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 .styled-form .form-group .theme-btn{
   min-width:150px;
   text-align:center;
-  padding:10px 30px;  
+  padding:10px 30px;
 }
 
 .styled-form .forgot{
-  font-size:14px; 
+  font-size:14px;
 }
 
 .social-links-two a{
@@ -6978,20 +6978,20 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .social-links-two .facebook{
-  background:#3b5998; 
+  background:#3b5998;
 }
 
 .social-links-two .twitter{
-  background:#33ccfe; 
+  background:#33ccfe;
 }
 
 .social-links-two .google-plus{
-  background:#dd4b39; 
+  background:#dd4b39;
 }
 
 
 
-/*** 
+/***
 =============================================
     two-column style
 =============================================
@@ -7220,7 +7220,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
   Featured Services style
@@ -7295,7 +7295,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
   border-bottom: 1px solid #f4f4f4;
   padding: 10px 0;
   display: block;
-  
+
 }
 
 .feature-service .style-2 .list li:last-child a {
@@ -7354,7 +7354,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 
-/*** 
+/***
 
 ====================================================================
     history  Section style
@@ -7628,7 +7628,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 
 .tabs-section .column{
-  margin-bottom:30px; 
+  margin-bottom:30px;
 }
 
 .tabs-section .image-box img{
@@ -7699,7 +7699,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 
 
 .contact_details {
-  
+
 }
 .contact_details .item {
   border: 1px solid #f4f4f4;
@@ -7709,7 +7709,7 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
 }
 .contact_details .item:hover {
   border-color: #48c7ec;
-  transition: .5s ease; 
+  transition: .5s ease;
 }
 .contact_details .item span {color: #48c7ec;font-size: 55px;}
 
@@ -7729,7 +7729,3 @@ input,textarea {font-family: 'Hind', sans-serif;display: block; font-size: 16px;
     height: 1px;
     background: #eee;
 }
-
-
-
-

@@ -3,75 +3,190 @@
   <head>
     <meta charset="utf-8">
     <title>Log in and Registration Page</title>
-    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/d/d1/Toad_3D_Land.png">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {%load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
   </head>
   <body>
-    <div class="container">
-      <h1>Log in and Registration</h1>
-      <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-      <!-- Register -->
-      <div class="row">
-        <form class="" action="{%url 'register' %}" method="POST">
-          {% csrf_token %}
-          <fieldset>
-            <legend>Register</legend>
-            <div class="">
-              <input type="text" placeholder="First Name" name="first_name">
+    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+    <!-- Navbar -->
+    <section class="theme_menu stricky">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="main-logo">
+              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
             </div>
-            <div class="">
-              <input type="text" placeholder="Last Name" name="last_name">
+          </div>
+          <div class="col-md-8 menu-column">
+            <nav class="menuzord" id="main_menu">
+  						<ul class="menuzord-menu">
+  							<li><a href="">Welcome to our store</a></li>
+  						</ul>
+            </nav>
+          </div>
+          <div class="right-column">
+            <div class="right-area">
+              <div class="nav_side_content">
+                <div class="search_option">
+                  <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
+                  <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fa fa-search" aria-hidden="true"></i></button>
+                  </form>
+               </div>
+             </div>
             </div>
-            <div class="">
-              <input type="text" placeholder="Email" name="email">
-            </div>
-            <div class="">
-              <input type="password" placeholder="Password" name="password">
-            </div>
-            <div class="">
-              <input type="password" placeholder="Confirm Password" name="password_confirmation">
-            </div>
-            <input class="" type="submit" name="" value="Register">
-          </fieldset>
-        </form>
+          </div>
+        </div>
       </div>
-      <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-      <!-- Log in -->
-      <div class="row">
-        <form class="" action="{%url 'login' %}" method="POST">
-          {% csrf_token %}
-          <fieldset>
-            <legend>Log in</legend>
-            <div class="">
-              <input type="text" placeholder="Email" name="email">
+    </section>
+    <div class="inner-banner text-center">
+      <div class="container">
+        <div class="box">
+          <h3>My Account</h3>
+        </div><!-- /.box -->
+        <div class="breadcumb-wrapper">
+          <div class="clearfix">
+            <div class="pull-left">
+              <ul class="list-inline link-list">
+                <li><a href="/">Homepage</a></li>
+                <li>Log in and registration</li>
+              </ul>
             </div>
-            <div class="">
-              <input type="password" placeholder="Password" name="password">
-            </div>
-            <input class="" type="submit" name="" value="Log In">
-          </fieldset>
-        </form>
+          </div>
+        </div>
       </div>
-      <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-      <!-- Errors -->
-      <div class="row">
-        {% if messages %}
-          <ul class="messages">
-            {% for message in messages %}
-              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      </div>
-      <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-  		<!-- Clear DB -->
-  		<div class="">
-  			<form class="" action="{% url 'clear_user' %}" method="post">
-  				{% csrf_token %}
-  				<input class="" type="submit" name="" value="Clear User Database">
-  			</form>
-  		</div>
     </div>
+    <section class="register-section sec-padd-top">
+      <div class="container">
+        <div class="row">
+          <div class="form-column column col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="section-title">
+              <h3>Login Now</h3>
+              <div class="decor"></div>
+            </div>
+            <div class="styled-form login-form">
+              <form class="" action="{%url 'login' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <span class="adon-icon"><span class="fa fa-envelope-o"></span></span>
+                  <input type="email" name="email" value="" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                  <span class="adon-icon"><span class="fa fa-unlock-alt"></span></span>
+                  <input type="password" name="password" value="" placeholder="Enter Password">
+                </div>
+                <div class="clearfix">
+                  <div class="form-group pull-left">
+                    <input class="thm-btn thm-tran-bg" type="submit" name="" value="login now">
+                  </div>
+                  <div class="form-group social-links-two padd-top-5 pull-right">
+                    Or login with <a href="#" class="img-circle facebook"><span class="fa fa-facebook-f"></span></a> <a href="#" class="img-circle twitter"><span class="fa fa-twitter"></span></a> <a href="#" class="img-circle google-plus"><span class="fa fa-google-plus"></span></a>
+                  </div>
+                </div>
+                <div class="clearfix">
+                  <div class="pull-left">
+                    <input type="checkbox" id="remember-me"><label for="remember-me">&nbsp; Remember Me</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="form-column column col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="section-title">
+              <h3>Register Now</h3>
+              <div class="decor"></div>
+            </div>
+            <div class="styled-form register-form">
+              <form class="" action="{%url 'register' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <span class="adon-icon"><span class="fa fa-user"></span></span>
+                  <input type="text" name="first_name" value="" placeholder="First Name">
+                </div>
+                <div class="form-group">
+                  <span class="adon-icon"><span class="fa fa-user"></span></span>
+                  <input type="text" name="last_name" value="" placeholder="Last Name">
+                </div>
+                <div class="form-group">
+                  <span class="adon-icon"><span class="fa fa-envelope-o"></span></span>
+                  <input type="email" name="email" value="" placeholder="Enter Email">
+                </div>
+                <div class="form-group">
+                  <span class="adon-icon"><span class="fa fa-unlock-alt"></span></span>
+                  <input type="password" name="password" value="" placeholder="Enter Password">
+                </div>
+                <div class="form-group">
+                  <span class="adon-icon"><span class="fa fa-unlock-alt"></span></span>
+                  <input type="password" name="password_confirmation" value="" placeholder="Confirm Password">
+                </div>
+                <div class="clearfix">
+                  <div class="form-group pull-left">
+                    <input class="thm-btn thm-tran-bg" type="submit" name="" value="Register here">
+                  </div>
+                  <div class="form-group padd-top-15 pull-right">
+                    * Free registered user to submit content.
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- jQuery js -->
+		<script src="{% static 'js/jquery.js' %}"></script>
+		<!-- bootstrap js -->
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<!-- jQuery ui js -->
+		<script src="{% static 'js/jquery-ui.js' %}"></script>
+		<!-- owl carousel js -->
+		<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+		<!-- jQuery validation -->
+		<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+
+		<!-- mixit up -->
+		<script src="{% static 'js/wow.js' %}"></script>
+		<script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
+		<script src="{% static 'js/jquery.fitvids.js' %}"></script>
+		<script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+		<script src="{% static 'js/menuzord.js' %}"></script>
+
+		<!-- revolution slider js -->
+		<script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
+		<script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
+		<script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
+
+		<!-- fancy box -->
+		<script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
+		<script src="{% static 'js/isotope.js' %}"></script>
+		<script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
+		<script src="{% static 'js/nouislider.js' %}"></script>
+		<script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
+		<script src="{% static 'js/SmoothScroll.js' %}"></script>
+		<script src="{% static 'js/jquery.appear.js' %}"></script>
+		<script src="{% static 'js/jquery.countTo.js' %}"></script>
+		<script src="{% static 'js/jquery.flexslider.js' %}"></script>
+		<script src="{% static 'js/imagezoom.js' %}"></script>
+		<script src="{% static 'js/bxslider.js' %}"></script>
+		<script id="map-script" src="{% static 'js/default-map.js' %}"></script>
+		<script src="{% static 'js/custom.js' %}"></script>
   </body>
 </html>
