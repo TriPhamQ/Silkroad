@@ -17,77 +17,77 @@
 	</head>
 	<body>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
-    <section class="theme_menu stricky">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="main-logo">
-              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
-            </div>
-          </div>
-          <div class="col-md-8 menu-column">
-            <nav class="menuzord" id="main_menu">
-              {% if logged_user == 1%}
-    						<ul class="menuzord-menu">
-    							<li><a href="/admin">Admin</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user != 0 %}
-                <ul class="menuzord-menu">
-                  <li><a href="/user">User Dashboard</a></li>
-    							<li><a href="{% url 'signout' %}">Log out</a></li>
-                  <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user == 0 %}
-    						<ul class="menuzord-menu">
-    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
-    						</ul>
-              {% endif %}
-            </nav>
-          </div>
-          <div class="right-column">
-            <div class="right-area">
-              <div class="nav_side_content">
-                <div class="search_option">
-                  <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
-                  <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
-                    <input type="text" placeholder="Search...">
-                    <button><i class="fa fa-search" aria-hidden="true"></i></button>
-                  </form>
-               </div>
-             </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+		<!-- Navbar -->
+		<section class="theme_menu stricky">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="main-logo">
+							<a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+						</div>
+					</div>
+					<div class="col-md-8 menu-column">
+						<nav class="menuzord" id="main_menu">
+							{% if logged_user == 1%}
+								<ul class="menuzord-menu">
+									<li><a href="/admin">Admin</a></li>
+								</ul>
+							{% endif %}
+							{% if logged_user != 0 %}
+								<ul class="menuzord-menu">
+									<li><a href="/user">User Dashboard</a></li>
+									<li><a href="{% url 'signout' %}">Log out</a></li>
+									<li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+								</ul>
+							{% endif %}
+							{% if logged_user == 0 %}
+								<ul class="menuzord-menu">
+									<li><a href="{% url 'login_registration' %}">Log In</a></li>
+								</ul>
+							{% endif %}
+						</nav>
+					</div>
+					<div class="right-column">
+						<div class="right-area">
+							<div class="nav_side_content">
+								<div class="search_option">
+									<button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
+									<form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
+										<input type="text" placeholder="Search...">
+										<button><i class="fa fa-search" aria-hidden="true"></i></button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- Main content -->
-    <div class="shop sec-padd">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3 col-sm-12 col-xs-12 sidebar_styleTwo">
-            <div class="wrapper">
-              <div class="sidebar_search">
-                <form action="#">
-                  <input type="text" placeholder="Search....">
-                  <button class="tran3s color1_bg"><i class="fa fa-search" aria-hidden="true"></i></button>
-                </form>
-              </div><br><br>
-              <div class="category-style-one">
-                <div class="theme_inner_title">
-                  <h3>Categories</h3>
-                  <ul class="list">
-                    {% for category in categories %}
-                      <li class="clearfix"><a href="{% url 'browse' category_name=category.name current_page=1 %}">{{category.name}}</a></li>
-                    {% endfor %}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+		<div class="shop sec-padd">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 col-sm-12 col-xs-12 sidebar_styleTwo">
+						<div class="wrapper">
+							<div class="sidebar_search">
+								<form action="#">
+									<input type="text" placeholder="Search....">
+									<button class="tran3s color1_bg"><i class="fa fa-search" aria-hidden="true"></i></button>
+								</form>
+							</div><br><br>
+							<div class="category-style-one">
+								<div class="theme_inner_title">
+									<h3>Categories</h3>
+									<ul class="list">
+										{% for category in categories %}
+											<li class="clearfix"><a href="{% url 'browse' category_name=category.name current_page=1 %}">{{category.name}}</a></li>
+										{% endfor %}
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="col-md-9 col-sm-12 col-xs-12">
 						<div class="single-products-details">
 							<div class="product-content-box">
