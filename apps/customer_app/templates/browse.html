@@ -64,7 +64,7 @@
       </div>
     </section>
     <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-		<!-- Main content -->
+    <!-- Main content -->
     <div class="shop sec-padd">
       <div class="container">
         <div class="row">
@@ -140,9 +140,9 @@
               {% endfor %}
             </div>
             <ul class="page_pagination center">
-							{% if max_pages == 1 %}
-								<li><a href="{{current_page}}" class="active tran3s">{{current_page}}</a></li>
-							{% endif %}
+    					{% if max_pages == 1 %}
+    						<li><a href="{{current_page}}" class="active tran3s">{{current_page}}</a></li>
+    					{% endif %}
               {% if current_page <= 1 and max_pages > 1 %}
                 <li><a href="{{current_page}}" class="active tran3s">{{current_page}}</a></li>
                 <li><a href="{{next_page}}" class="tran3s">{{next_page}}</a></li>
