@@ -5,6 +5,7 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^$', views.index, name = 'index'),
+    url(r'^(?P<current_page>\d+)$', views.index_next, name = 'index_next'),
     url(r'^browse/(?P<category_name>[\w\-]+)/(?P<current_page>\d+)$', views.browse, name = 'browse'),
     url(r'^user$', views.user, name = 'user'),
     url(r'^shopping-cart$', views.shopping_cart, name = 'shopping_cart'),

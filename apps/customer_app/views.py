@@ -5,6 +5,9 @@ import os, math, stripe
 # Stripe
 stripe.api_key = "sk_test_rcBDHXKJDHEK0uSNnRiLsorp"
 
+# Page size
+page_size = 3
+
 # Create your views here.
 def index(request):
     # Use this next line to clear cart while test
@@ -21,6 +24,7 @@ def index(request):
         user = User.objects.get(id = logged_user)
     except:
         user = None
+    current_page = 1
     if user:
         cart = Cart.objects.filter(user = user)
         cart_item = 0
@@ -28,24 +32,95 @@ def index(request):
             cart_item += cart[item].quantity
         categories = Category.objects.all()
         products = Product.objects.filter(ongoing = True).order_by('category')
+        product_start = (int(current_page)-1)*page_size
+        product_end = (int(current_page))*page_size
+        max_pages = math.ceil(len(products)/page_size)
+        products_out = Product.objects.filter(ongoing = True)[product_start:product_end]
         images = Image.objects.all()
         context = {
+            'current_page': int(current_page),
+            'max_pages': math.ceil(products.count()/page_size),
+            'next_page': int(current_page)+1,
             'logged_user': logged_user,
             'cart': cart,
             'cart_item': cart_item,
             'categories': categories,
-            'products': products,
-            'images': images
+            'products': products_out
         }
     else:
         categories = Category.objects.all()
         products = Product.objects.filter(ongoing = True).order_by('category')
+        product_start = (int(current_page)-1)*page_size
+        product_end = (int(current_page))*page_size
+        max_pages = math.ceil(len(products)/page_size)
+        products_out = Product.objects.filter(ongoing = True)[product_start:product_end]
         images = Image.objects.all()
         context = {
+            'current_page': int(current_page),
+            'max_pages': math.ceil(products.count()/page_size),
+            'next_page': int(current_page)+1,
             'logged_user': logged_user,
             'categories': categories,
-            'products': products,
-            'images': images
+            'products': products_out
+        }
+    return render(request, 'index.html', context)
+
+def index_next(request, current_page):
+    # Use this next line to clear cart while test
+    # Cart.objects.all().delete()
+    # Order.objects.all().delete()
+    # OrderProduct.objects.all().delete()
+    # BillingAddress.objects.all().delete()
+    # ShippingAddress.objects.all().delete()
+    if 'logged_user' not in request.session:
+        logged_user = 0
+    else:
+        logged_user = request.session['logged_user']
+    try:
+        user = User.objects.get(id = logged_user)
+    except:
+        user = None
+    if int(current_page) <= 0:
+        return redirect('/')
+    if user:
+        cart = Cart.objects.filter(user = user)
+        cart_item = 0
+        for item in range (0, cart.count()):
+            cart_item += cart[item].quantity
+        categories = Category.objects.all()
+        products = Product.objects.filter(ongoing = True).order_by('category')
+        product_start = (int(current_page)-1)*page_size
+        product_end = (int(current_page))*page_size
+        max_pages = math.ceil(len(products)/page_size)
+        products_out = Product.objects.filter(ongoing = True)[product_start:product_end]
+        images = Image.objects.all()
+        context = {
+            'current_page': int(current_page),
+            'max_pages': math.ceil(products.count()/page_size),
+            'prev_page': int(current_page)-1,
+            'next_page': int(current_page)+1,
+            'logged_user': logged_user,
+            'cart': cart,
+            'cart_item': cart_item,
+            'categories': categories,
+            'products': products_out
+        }
+    else:
+        categories = Category.objects.all()
+        products = Product.objects.filter(ongoing = True).order_by('category')
+        product_start = (int(current_page)-1)*page_size
+        product_end = (int(current_page))*page_size
+        max_pages = math.ceil(len(products)/page_size)
+        products_out = Product.objects.filter(ongoing = True)[product_start:product_end]
+        images = Image.objects.all()
+        context = {
+            'current_page': int(current_page),
+            'max_pages': math.ceil(products.count()/page_size),
+            'prev_page': int(current_page)-1,
+            'next_page': int(current_page)+1,
+            'logged_user': logged_user,
+            'categories': categories,
+            'products': products_out
         }
     return render(request, 'index.html', context)
 
@@ -56,7 +131,6 @@ def browse(request, category_name, current_page):
         logged_user = request.session['logged_user']
     category = Category.objects.get(name = category_name)
     products = Product.objects.filter(category = category)
-    page_size = 15
     product_start = (int(current_page)-1)*page_size
     product_end = (int(current_page))*page_size
     max_pages = math.ceil(len(products)/page_size)
@@ -72,6 +146,10 @@ def browse(request, category_name, current_page):
         for item in range (0, cart.count()):
             cart_item += cart[item].quantity
         context = {
+            'current_page': int(current_page),
+            'max_pages': math.ceil(products.count()/page_size),
+            'prev_page': int(current_page)-1,
+            'next_page': int(current_page)+1,
             'categories': categories,
             'cart_item': cart_item,
             'logged_user': logged_user,
@@ -79,6 +157,10 @@ def browse(request, category_name, current_page):
         }
     else:
         context = {
+            'current_page': int(current_page),
+            'max_pages': math.ceil(products.count()/page_size),
+            'prev_page': int(current_page)-1,
+            'next_page': int(current_page)+1,
             'categories': categories,
             'logged_user': logged_user,
             'products': products_out
@@ -136,6 +218,7 @@ def add_to_cart(request, product_id):
         product = Product.objects.get(id = product_id)
         if product.ongoing == True:
             form = request.POST
+            print(form['product_quantity'])
             if int(form['product_quantity']) <= product.inventory:
                 user = User.objects.get(id = logged_user)
                 try:
@@ -179,6 +262,7 @@ def shopping_cart(request):
         total = round(tax + float(raw_total) + float(shipping), 2)
         stripe_total = round((tax + float(raw_total) + float(shipping))*100, 2)
         context = {
+            'logged_user': logged_user,
             'error': error,
             'cart_item': cart_item,
             'cart': cart,
@@ -223,6 +307,7 @@ def check_out(request):
             total = round(tax + float(raw_total) + float(shipping), 2)
             stripe_total = round((tax + float(raw_total) + float(shipping))*100, 2)
             context = {
+                'logged_user': logged_user,
                 'error': error,
                 'cart_item': cart_item,
                 'cart': cart,

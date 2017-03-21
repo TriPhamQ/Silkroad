@@ -76,18 +76,18 @@
 							var order_id = $(this).siblings('input').val()
 							var status = $(this).val()
 							console.log(status)
-						}
-						$.ajax({
-								type: 'GET',
-								url: '{% url 'order_status_update' %}',
-								data: {
-									'status': status,
-									'order_id': order_id
-								}
-						});
-						if (status == "Refunded") {
-							$("select").prop("disabled", true);
-						}
+					}
+					$.ajax({
+							type: 'GET',
+							url: '{% url 'order_status_update' %}',
+							data: {
+								'status': status,
+								'order_id': order_id
+							}
+					});
+					if (status == "Refunded") {
+						$("select").prop("disabled", true);
+					}
 				})
 			});
 		</script>
