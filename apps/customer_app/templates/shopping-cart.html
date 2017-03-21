@@ -1,235 +1,235 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Shopping Cart</title>
-    {%load static %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <title>Shopping Cart</title>
+        {%load static %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
-  </head>
-  <body>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
-    <section class="theme_menu stricky">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="main-logo">
-              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
-            </div>
-          </div>
-          <div class="col-md-8 menu-column">
-            <nav class="menuzord" id="main_menu">
-              {% if logged_user == 1%}
-    						<ul class="menuzord-menu">
-    							<li><a href="/admin">Admin</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user != 0 %}
-                <ul class="menuzord-menu">
-                  <li><a href="/user">User Dashboard</a></li>
-    							<li><a href="{% url 'signout' %}">Log out</a></li>
-                  <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user == 0 %}
-    						<ul class="menuzord-menu">
-    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
-    						</ul>
-              {% endif %}
-            </nav>
-          </div>
-          <div class="right-column">
-            <div class="right-area">
-              <div class="nav_side_content">
-                <div class="search_option">
-                  <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
-                  <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
-                    <input type="text" placeholder="Search...">
-                    <button><i class="fa fa-search" aria-hidden="true"></i></button>
-                  </form>
-               </div>
-             </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="inner-banner text-center">
-      <div class="container">
-        <div class="box">
-          <h3>Shopping Cart</h3>
-        </div><!-- /.box -->
-        <div class="breadcumb-wrapper">
-          <div class="clearfix">
-            <div class="pull-left">
-              <ul class="list-inline link-list">
-                <li><a href="/">Homepage</a></li>
-                <li>Shopping Cart</li>
-              </ul>
-            </div>
-            <div class="pull-right">
-              <a href="#" class="get-qoute"><i class="fa fa-share-alt"></i>share</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-		<!-- View Cart -->
-    <section class="cart-section sec-padd-top">
-      <div class="container">
-        {% if error|length > 0 %}
-          <div class="">
-            {% for err in error %}
-              <p style="color:red">{{err}}</p>
-            {% endfor %}
-          </div>
-        {% endif %}
-        <div class="cart-outer">
-          <div class="table-outer">
-            <table class="cart-table">
-              <thead class="cart-header">
-                <tr>
-                  <th class="prod-column">Product</th>
-                  <th>&nbsp;</th>
-                  <th>Quantity</th>
-                  <th>Avalability</th>
-                  <th class="price">Price</th>
-                  <th>Remove</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for item in cart %}
-                <tr>
-                  <td colspan="2" class="prod-column">
-                    <div class="column-box">
-                      <figure class="">
-                        {% for image in item.product.imageofproduct.all %}
-                          {% if image.main == True %}
-                            <a href="{% url 'product_page' product_id=item.product.id %}"><img src="{{image.image.url}}" heigh="100" width="100" alt=""></a>
-                          {% endif %}
-                        {% endfor %}
-                      </figure>
-                      <h3 class="prod-title padd-top-20">{{item.product.name}}</h3>
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
+        <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
+    </head>
+    <body>
+        <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+        <!-- Navbar -->
+        <section class="theme_menu stricky">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="main-logo">
+                            <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+                        </div>
                     </div>
-                  </td>
-                  <td class="qty">
-                    <form class="" action="{% url 'change_quantity' product_id=item.product.id%}" method="post">
-                      {% csrf_token %}
-                      <div class="">
-                        <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity" value="{{item.quantity}}">
-                      </div>
-                      <input type="submit" name="" value="Change">
-                    </form>
-                  </td>
-                  <td class="unit-price">
-                    {% if item.quantity <= item.product.inventory and item.product.ongoing == True %}
-                      <div class="available-info"><span class="icon fa fa-check"></span> Item(s) <br>Avilable Now</div>
-                    {% endif %}
-                    {% if item.quantity > item.product.inventory or item.product.ongoing == False %}
-                      <div class="available-info">Item(s) <br>Not Available Right Now</div>
-                    {% endif %}
-                  </td>
-                  <td class="price">${{item.product.price}}</td>
-                  <td class="remove">
-                    <form class="" action="{% url 'remove_cart_item' product_id=item.product.id%}" method="post">
-                      {% csrf_token %}
-                      <input type="submit" name="" value="Remove">
-                    </form>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div class="update-cart-box clearfix">
-            <div class="pull-left">
-              <div class="apply-coupon clearfix">
-                <div class="form-group clearfix">
-                  <input type="text" name="coupon-code" value="" placeholder="Enter Coupon Code...">
+                    <div class="col-md-8 menu-column">
+                        <nav class="menuzord" id="main_menu">
+                            {% if logged_user == 1%}
+                                <ul class="menuzord-menu">
+                                    <li><a href="/admin">Admin</a></li>
+                                </ul>
+                            {% endif %}
+                            {% if logged_user != 0 %}
+                                <ul class="menuzord-menu">
+                                    <li><a href="/user">User Dashboard</a></li>
+                                    <li><a href="{% url 'signout' %}">Log out</a></li>
+                                    <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+                                </ul>
+                            {% endif %}
+                            {% if logged_user == 0 %}
+                                <ul class="menuzord-menu">
+                                    <li><a href="{% url 'login_registration' %}">Log In</a></li>
+                                </ul>
+                            {% endif %}
+                        </nav>
+                    </div>
+                    <div class="right-column">
+                        <div class="right-area">
+                            <div class="nav_side_content">
+                                <div class="search_option">
+                                    <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
+                                        <input type="text" placeholder="Search...">
+                                        <button><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group clearfix">
-                  <button type="button" class="thm-btn ">Apply Coupon</button>
+            </div>
+        </section>
+        <div class="inner-banner text-center">
+            <div class="container">
+                <div class="box">
+                    <h3>Shopping Cart</h3>
+                </div><!-- /.box -->
+                <div class="breadcumb-wrapper">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <ul class="list-inline link-list">
+                                <li><a href="/">Homepage</a></li>
+                                <li>Shopping Cart</li>
+                            </ul>
+                        </div>
+                        <div class="pull-right">
+                            <a href="#" class="get-qoute"><i class="fa fa-share-alt"></i>share</a>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="row clearfix sec-pad">
-            <div class="column cart-total col-md-6 col-sm-12 col-xs-12">
-              <div class="sec-title medium">
-                <h3>Cart Totals</h3>
-              </div>
-              <ul class="totals-table">
-                <li class="clearfix"><span class="col col-title">Cart Subtotal</span><span class="col">${{raw_total}}</span></li>
-                <li class="clearfix"><span class="col col-title">Shipping and Handling</span><span class="col">${{shipping}}</span></li>
-                <li class="clearfix"><span class="col col-title">Tax (7.5%)</span><span class="col">${{tax}}</span></li>
-                <li class="clearfix"><span class="col col-title">Order Total</span><span class="col">${{total}}</span></li>
-              </ul>
-              <div class="margin-top-30 text-right">
-                {% if cart.count >= 1 %}
-                  <form class="" action="{% url 'check_out' %}" method="get">
-                    <input class="thm-btn inverse" type="submit" name="" value="Proceed to Checkout">
-                  </form>
-                {% endif %}
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
-    <!-- jQuery js -->
-		<script src="{% static 'js/jquery.js' %}"></script>
-		<!-- bootstrap js -->
-		<script src="{% static 'js/bootstrap.min.js' %}"></script>
-		<!-- jQuery ui js -->
-		<script src="{% static 'js/jquery-ui.js' %}"></script>
-		<!-- owl carousel js -->
-		<script src="{% static 'js/owl.carousel.min.js' %}"></script>
-		<!-- jQuery validation -->
-		<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+        <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+        <!-- View Cart -->
+        <section class="cart-section sec-padd-top">
+            <div class="container">
+                {% if error|length > 0 %}
+                    <div class="">
+                        {% for err in error %}
+                            <p style="color:red">{{err}}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="cart-outer">
+                    <div class="table-outer">
+                        <table class="cart-table">
+                            <thead class="cart-header">
+                                <tr>
+                                    <th class="prod-column">Product</th>
+                                    <th>&nbsp;</th>
+                                    <th>Quantity</th>
+                                    <th>Avalability</th>
+                                    <th class="price">Price</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart %}
+                                    <tr>
+                                        <td colspan="2" class="prod-column">
+                                            <div class="column-box">
+                                                <figure class="">
+                                                    {% for image in item.product.imageofproduct.all %}
+                                                        {% if image.main == True %}
+                                                            <a href="{% url 'product_page' product_id=item.product.id %}"><img src="{{image.image.url}}" heigh="100" width="100" alt=""></a>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </figure>
+                                                <h3 class="prod-title padd-top-20">{{item.product.name}}</h3>
+                                            </div>
+                                        </td>
+                                        <td class="qty">
+                                            <form class="" action="{% url 'change_quantity' product_id=item.product.id%}" method="post">
+                                                {% csrf_token %}
+                                                <div class="">
+                                                    <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity" value="{{item.quantity}}">
+                                                </div>
+                                                <input type="submit" name="" value="Change">
+                                            </form>
+                                        </td>
+                                        <td class="unit-price">
+                                            {% if item.quantity <= item.product.inventory and item.product.ongoing == True %}
+                                                <div class="available-info"><span class="icon fa fa-check"></span> Item(s) <br>Avilable Now</div>
+                                            {% endif %}
+                                            {% if item.quantity > item.product.inventory or item.product.ongoing == False %}
+                                                <div class="available-info">Item(s) <br>Not Available Right Now</div>
+                                            {% endif %}
+                                        </td>
+                                        <td class="price">${{item.product.price}}</td>
+                                        <td class="remove">
+                                            <form class="" action="{% url 'remove_cart_item' product_id=item.product.id%}" method="post">
+                                                {% csrf_token %}
+                                                <input type="submit" name="" value="Remove">
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="update-cart-box clearfix">
+                        <div class="pull-left">
+                            <div class="apply-coupon clearfix">
+                                <div class="form-group clearfix">
+                                    <input type="text" name="coupon-code" value="" placeholder="Enter Coupon Code...">
+                                </div>
+                                <div class="form-group clearfix">
+                                    <button type="button" class="thm-btn ">Apply Coupon</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix sec-pad">
+                        <div class="column cart-total col-md-6 col-sm-12 col-xs-12">
+                            <div class="sec-title medium">
+                                <h3>Cart Totals</h3>
+                            </div>
+                            <ul class="totals-table">
+                                <li class="clearfix"><span class="col col-title">Cart Subtotal</span><span class="col">${{raw_total}}</span></li>
+                                <li class="clearfix"><span class="col col-title">Shipping and Handling</span><span class="col">${{shipping}}</span></li>
+                                <li class="clearfix"><span class="col col-title">Tax (7.5%)</span><span class="col">${{tax}}</span></li>
+                                <li class="clearfix"><span class="col col-title">Order Total</span><span class="col">${{total}}</span></li>
+                            </ul>
+                            <div class="margin-top-30 text-right">
+                                {% if cart.count >= 1 %}
+                                    <form class="" action="{% url 'check_out' %}" method="get">
+                                        <input class="thm-btn inverse" type="submit" name="" value="Proceed to Checkout">
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- jQuery js -->
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <!-- bootstrap js -->
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <!-- jQuery ui js -->
+        <script src="{% static 'js/jquery-ui.js' %}"></script>
+        <!-- owl carousel js -->
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <!-- jQuery validation -->
+        <script src="{% static 'js/jquery.validate.min.js' %}"></script>
 
-		<!-- mixit up -->
-		<script src="{% static 'js/wow.js' %}"></script>
-		<script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
-		<script src="{% static 'js/jquery.fitvids.js' %}"></script>
-		<script src="{% static 'js/bootstrap-select.min.js' %}"></script>
-		<script src="{% static 'js/menuzord.js' %}"></script>
+        <!-- mixit up -->
+        <script src="{% static 'js/wow.js' %}"></script>
+        <script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
+        <script src="{% static 'js/jquery.fitvids.js' %}"></script>
+        <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+        <script src="{% static 'js/menuzord.js' %}"></script>
 
-		<!-- revolution slider js -->
-		<script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
-		<script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
+        <!-- revolution slider js -->
+        <script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
+        <script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
 
-		<!-- fancy box -->
-		<script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
-		<script src="{% static 'js/isotope.js' %}"></script>
-		<script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
-		<script src="{% static 'js/nouislider.js' %}"></script>
-		<script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
-		<script src="{% static 'js/SmoothScroll.js' %}"></script>
-		<script src="{% static 'js/jquery.appear.js' %}"></script>
-		<script src="{% static 'js/jquery.countTo.js' %}"></script>
-		<script src="{% static 'js/jquery.flexslider.js' %}"></script>
-		<script src="{% static 'js/imagezoom.js' %}"></script>
-		<script src="{% static 'js/bxslider.js' %}"></script>
-		<script id="map-script" src="{% static 'js/default-map.js' %}"></script>
-		<script src="{% static 'js/custom.js' %}"></script>
-  </body>
+        <!-- fancy box -->
+        <script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
+        <script src="{% static 'js/isotope.js' %}"></script>
+        <script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
+        <script src="{% static 'js/nouislider.js' %}"></script>
+        <script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
+        <script src="{% static 'js/SmoothScroll.js' %}"></script>
+        <script src="{% static 'js/jquery.appear.js' %}"></script>
+        <script src="{% static 'js/jquery.countTo.js' %}"></script>
+        <script src="{% static 'js/jquery.flexslider.js' %}"></script>
+        <script src="{% static 'js/imagezoom.js' %}"></script>
+        <script src="{% static 'js/bxslider.js' %}"></script>
+        <script id="map-script" src="{% static 'js/default-map.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+    </body>
 </html>
