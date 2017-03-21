@@ -1,405 +1,404 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Check Out</title>
-    {%load static %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <title>Check Out</title>
+        {%load static %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  </head>
-  <body>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
-    <section class="theme_menu stricky">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="main-logo">
-              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
-            </div>
-          </div>
-          <div class="col-md-8 menu-column">
-            <nav class="menuzord" id="main_menu">
-              {% if logged_user == 1%}
-    						<ul class="menuzord-menu">
-    							<li><a href="/admin">Admin</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user != 0 %}
-                <ul class="menuzord-menu">
-                  <li><a href="/user">User Dashboard</a></li>
-    							<li><a href="{% url 'signout' %}">Log out</a></li>
-                  <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user == 0 %}
-    						<ul class="menuzord-menu">
-    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
-    						</ul>
-              {% endif %}
-            </nav>
-          </div>
-          <div class="right-column">
-            <div class="right-area">
-              <div class="nav_side_content">
-                <div class="search_option">
-                  <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
-                  <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
-                    <input type="text" placeholder="Search...">
-                    <button><i class="fa fa-search" aria-hidden="true"></i></button>
-                  </form>
-               </div>
-             </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <div class="inner-banner text-center">
-      <div class="container">
-        <div class="box">
-          <h3>Shopping Cart</h3>
-        </div><!-- /.box -->
-        <div class="breadcumb-wrapper">
-          <div class="clearfix">
-            <div class="pull-left">
-              <ul class="list-inline link-list">
-                <li><a href="/">Homepage</a></li>
-                <li><a href="/shopping-cart">Shopping Cart</a></li>
-                <li>Checkout</li>
-              </ul>
-            </div>
-            <div class="pull-right">
-              <a href="#" class="get-qoute"><i class="fa fa-share-alt"></i>share</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <section class="checkout-area">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 col-md-6">
-            <div class="table">
-              <div class="sec-title-two">
-                <h3>Order Summary</h3>
-              </div>
-              <table class="cart-table">
-                <thead class="cart-header">
-                  <tr>
-                    <th class="product-column">Your Products</th>
-                    <th>&nbsp;</th>
-                    <th>Quantity</th>
-                    <th class="price">Sub Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for item in cart %}
-                    <tr>
-                      <td colspan="2" class="product-column">
-                        <div class="column-box">
-                          <div class="prod-thumb">
-                            {% for image in item.product.imageofproduct.all %}
-                              {% if image.main == True %}
-                                <a href="{% url 'product_page' product_id=item.product.id %}"><img src="{{image.image.url}}" heigh="100" width="100" alt=""></a>
-                              {% endif %}
-                            {% endfor %}
-                          </div>
-                          <div class="product-title">
-                            <h3>{{item.product.name}}</h3>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="qty">
-                        <form class="" action="{% url 'change_quantity' product_id=item.product.id%}" method="post">
-                          {% csrf_token %}
-                          <div class="">
-                            <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity" value="{{item.quantity}}">
-                          </div>
-                          <input type="submit" name="" value="Change">
-                        </form>
-                      </td>
-                      <td class="price">${{item.product.price}} x {{item.quantity}}</td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <div class="cart-total">
-              <div class="sec-title-two">
-                <h3>Cart Totals</h3>
-              </div>
-              <ul class="cart-total-table">
-                <li class="clearfix">
-                  <span class="col col-title">Cart Subtotal</span>
-                  <span class="col">${{raw_total}}</span>
-                </li>
-                <li class="clearfix">
-                  <span class="col col-title">Shipping and Handling</span>
-                  <span class="col">${{shipping}}</span>
-                </li>
-                <li class="clearfix">
-                  <span class="col col-title">Tax</span>
-                  <span class="col">${{tax}}</span>
-                </li>
-                <li class="clearfix">
-                  <span class="col col-title">Order Total</span>
-                  <span class="col">${{total}}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="form billing-info">
-              <div class="section-title">
-                {% if error|length > 0 %}
-                  <div class="">
-                    {% for err in error %}
-                      <p style="color:red">{{err}}</p>
-                    {% endfor %}
-                  </div>
-                {% endif %}
-                <h3>Payment Infomation</h3>
-              </div>
-              <form id="payment-form" class="" action="{% url 'place_order' %}" method="post">
-                {% csrf_token %}
-                <span class="payment-errors"></span>
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
+        <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    </head>
+    <body>
+        <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+        <!-- Navbar -->
+        <section class="theme_menu stricky">
+            <div class="container">
                 <div class="row">
-                  <div class="col-md-12">
-                    <div class="field-label">Name on Card</div>
-                    <div class="field-input">
-                      <input class="card-name" type="text" name="pay_name" data-stripe="name">
+                    <div class="col-md-4">
+                        <div class="main-logo">
+                            <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="field-label">Card Number</div>
-                    <div class="field-input">
-                      <input class="card-number" type="text" size="16" maxlength="16" name="pay_card_number" data-stripe="number">
+                    <div class="col-md-8 menu-column">
+                        <nav class="menuzord" id="main_menu">
+                            {% if logged_user == 1%}
+                                <ul class="menuzord-menu">
+                                    <li><a href="/admin">Admin</a></li>
+                                </ul>
+                            {% endif %}
+                            {% if logged_user != 0 %}
+                                <ul class="menuzord-menu">
+                                    <li><a href="/user">User Dashboard</a></li>
+                                    <li><a href="{% url 'signout' %}">Log out</a></li>
+                                    <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+                                </ul>
+                            {% endif %}
+                            {% if logged_user == 0 %}
+                                <ul class="menuzord-menu">
+                                    <li><a href="{% url 'login_registration' %}">Log In</a></li>
+                                </ul>
+                            {% endif %}
+                        </nav>
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="field-label">CVC</div>
-                    <div class="field-input">
-                      <input class="card-cvc" type="text" size="4" maxlength="4" name="pay_card_cvc" data-stripe="cvc" placeholder="xxxx">
+                    <div class="right-column">
+                        <div class="right-area">
+                            <div class="nav_side_content">
+                                <div class="search_option">
+                                    <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
+                                        <input type="text" placeholder="Search...">
+                                        <button><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="field-label">Expiring Date</div>
-                    <div class="field-input">
-                      <input class="card-expiry-month" type="text" size="2" maxlength="2" name="pay_exp_month" data-stripe="exp_month" placeholder="Month">
-                      <input class="card-expiry-year" type="text" size="4" maxlength="4" name="pay_exp_year" data-stripe="exp_year" placeholder="Year">
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-sm-12 col-xs-12">
-                    <h3>Billing Address</h3>
-                    <div class="col-md-12">
-                      <div class="field-label">First Name</div>
-                      <div class="field-input">
-                        <input id="bill_first_name" type="text" name="bill_first_name">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">Last Name</div>
-                      <div class="field-input">
-                        <input id="bill_last_name" type="text" name="bill_last_name">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">Address</div>
-                      <div class="field-input">
-                        <input id="bill_address" class="address_line1" type="text" name="bill_address" data-stripe="address_line1">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">City</div>
-                      <div class="field-input">
-                        <input id="bill_city" class="address_city" type="text" name="bill_city" data-stripe="address_city">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">State</div>
-                      <div class="field-input">
-                        <input id="bill_state" class="address_state" type="text" name="bill_state" data-stripe="address_state">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">Zip Code</div>
-                      <div class="field-input">
-                        <input id="bill_zip" class="address_zip" type="text" size="5" maxlength="5" name="bill_zip">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6 col-sm-12 col-xs-12">
-                    <h3>Shipping Address</h3>
-                    <div class="col-md-12">
-                      <div class="field-label">First Name</div>
-                      <div class="field-input">
-                        <input id="ship_first_name" type="text" name="ship_first_name">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">Last Name</div>
-                      <div class="field-input">
-                        <input id="ship_last_name" type="text" name="ship_last_name">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">Address</div>
-                      <div class="field-input">
-                        <input id="ship_address" type="text" name="ship_address">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">City</div>
-                      <div class="field-input">
-                        <input id="ship_city" type="text" name="ship_city">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">State</div>
-                      <div class="field-input">
-                        <input id="ship_state" type="text" name="ship_state">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="field-label">Zip Code</div>
-                      <div class="field-input">
-                        <input id="ship_zip" type="text" name="ship_zip">
-                      </div>
-                    </div>
-                    <div class="">
-                      <span>Same as billing address</span><input class="fill" type="checkbox" name="" value="" onclick="fillShipping(this.checked)">
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <input class="thm-btn" type="submit" name="" value="Place Order">
-                  </div>
                 </div>
-              </form>
             </div>
-          </div>
+        </section>
+        <div class="inner-banner text-center">
+            <div class="container">
+                <div class="box">
+                    <h3>Shopping Cart</h3>
+                </div><!-- /.box -->
+                <div class="breadcumb-wrapper">
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <ul class="list-inline link-list">
+                                <li><a href="/">Homepage</a></li>
+                                <li><a href="/shopping-cart">Shopping Cart</a></li>
+                                <li>Checkout</li>
+                            </ul>
+                        </div>
+                        <div class="pull-right">
+                            <a href="#" class="get-qoute"><i class="fa fa-share-alt"></i>share</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <section class="checkout-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="table">
+                            <div class="sec-title-two">
+                                <h3>Order Summary</h3>
+                            </div>
+                            <table class="cart-table">
+                                <thead class="cart-header">
+                                    <tr>
+                                        <th class="product-column">Your Products</th>
+                                        <th>&nbsp;</th>
+                                        <th>Quantity</th>
+                                        <th class="price">Sub Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in cart %}
+                                        <tr>
+                                            <td colspan="2" class="product-column">
+                                                <div class="column-box">
+                                                    <div class="prod-thumb">
+                                                        {% for image in item.product.imageofproduct.all %}
+                                                            {% if image.main == True %}
+                                                                <a href="{% url 'product_page' product_id=item.product.id %}"><img src="{{image.image.url}}" heigh="100" width="100" alt=""></a>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                    <div class="product-title">
+                                                        <h3>{{item.product.name}}</h3>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="qty">
+                                                <form class="" action="{% url 'change_quantity' product_id=item.product.id%}" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="">
+                                                        <input type="number" step="1" min="1" max="{{item.product.inventory}}" name="product_quantity" value="{{item.quantity}}">
+                                                    </div>
+                                                    <input type="submit" name="" value="Change">
+                                                </form>
+                                            </td>
+                                            <td class="price">${{item.product.price}} x {{item.quantity}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="cart-total">
+                            <div class="sec-title-two">
+                                <h3>Cart Totals</h3>
+                            </div>
+                            <ul class="cart-total-table">
+                                <li class="clearfix">
+                                    <span class="col col-title">Cart Subtotal</span>
+                                    <span class="col">${{raw_total}}</span>
+                                </li>
+                                <li class="clearfix">
+                                    <span class="col col-title">Shipping and Handling</span>
+                                    <span class="col">${{shipping}}</span>
+                                </li>
+                                <li class="clearfix">
+                                    <span class="col col-title">Tax</span>
+                                    <span class="col">${{tax}}</span>
+                                </li>
+                                <li class="clearfix">
+                                    <span class="col col-title">Order Total</span>
+                                    <span class="col">${{total}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="form billing-info">
+                            <div class="section-title">
+                                {% if error|length > 0 %}
+                                    <div class="">
+                                        {% for err in error %}
+                                            <p style="color:red">{{err}}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <h3>Payment Infomation</h3>
+                            </div>
+                            <form id="payment-form" class="" action="{% url 'place_order' %}" method="post">
+                                {% csrf_token %}
+                                <span class="payment-errors"></span>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="field-label">Name on Card</div>
+                                        <div class="field-input">
+                                            <input class="card-name" type="text" name="pay_name" data-stripe="name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="field-label">Card Number</div>
+                                        <div class="field-input">
+                                            <input class="card-number" type="text" size="16" maxlength="16" name="pay_card_number" data-stripe="number">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="field-label">CVC</div>
+                                        <div class="field-input">
+                                            <input class="card-cvc" type="text" size="4" maxlength="4" name="pay_card_cvc" data-stripe="cvc" placeholder="xxxx">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="field-label">Expiring Date</div>
+                                        <div class="field-input">
+                                            <input class="card-expiry-month" type="text" size="2" maxlength="2" name="pay_exp_month" data-stripe="exp_month" placeholder="Month">
+                                            <input class="card-expiry-year" type="text" size="4" maxlength="4" name="pay_exp_year" data-stripe="exp_year" placeholder="Year">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <h3>Billing Address</h3>
+                                        <div class="col-md-12">
+                                            <div class="field-label">First Name</div>
+                                            <div class="field-input">
+                                                <input id="bill_first_name" type="text" name="bill_first_name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">Last Name</div>
+                                            <div class="field-input">
+                                                <input id="bill_last_name" type="text" name="bill_last_name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">Address</div>
+                                            <div class="field-input">
+                                                <input id="bill_address" class="address_line1" type="text" name="bill_address" data-stripe="address_line1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">City</div>
+                                            <div class="field-input">
+                                                <input id="bill_city" class="address_city" type="text" name="bill_city" data-stripe="address_city">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">State</div>
+                                            <div class="field-input">
+                                                <input id="bill_state" class="address_state" type="text" name="bill_state" data-stripe="address_state">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">Zip Code</div>
+                                            <div class="field-input">
+                                                <input id="bill_zip" class="address_zip" type="text" size="5" maxlength="5" name="bill_zip">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <h3>Shipping Address</h3>
+                                        <div class="col-md-12">
+                                            <div class="field-label">First Name</div>
+                                            <div class="field-input">
+                                                <input id="ship_first_name" type="text" name="ship_first_name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">Last Name</div>
+                                            <div class="field-input">
+                                                <input id="ship_last_name" type="text" name="ship_last_name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">Address</div>
+                                            <div class="field-input">
+                                                <input id="ship_address" type="text" name="ship_address">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">City</div>
+                                            <div class="field-input">
+                                                <input id="ship_city" type="text" name="ship_city">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">State</div>
+                                            <div class="field-input">
+                                                <input id="ship_state" type="text" name="ship_state">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="field-label">Zip Code</div>
+                                            <div class="field-input">
+                                                <input id="ship_zip" type="text" name="ship_zip">
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <span>Same as billing address</span><input class="fill" type="checkbox" name="" value="" onclick="fillShipping(this.checked)">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input class="thm-btn" type="submit" name="" value="Place Order">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- jQuery js -->
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <!-- bootstrap js -->
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <!-- jQuery ui js -->
+        <script src="{% static 'js/jquery-ui.js' %}"></script>
+        <!-- owl carousel js -->
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <!-- jQuery validation -->
+        <script src="{% static 'js/jquery.validate.min.js' %}"></script>
 
-      </div>
-    </section>
-    <!-- jQuery js -->
-		<script src="{% static 'js/jquery.js' %}"></script>
-		<!-- bootstrap js -->
-		<script src="{% static 'js/bootstrap.min.js' %}"></script>
-		<!-- jQuery ui js -->
-		<script src="{% static 'js/jquery-ui.js' %}"></script>
-		<!-- owl carousel js -->
-		<script src="{% static 'js/owl.carousel.min.js' %}"></script>
-		<!-- jQuery validation -->
-		<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+        <!-- mixit up -->
+        <script src="{% static 'js/wow.js' %}"></script>
+        <script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
+        <script src="{% static 'js/jquery.fitvids.js' %}"></script>
+        <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+        <script src="{% static 'js/menuzord.js' %}"></script>
 
-		<!-- mixit up -->
-		<script src="{% static 'js/wow.js' %}"></script>
-		<script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
-		<script src="{% static 'js/jquery.fitvids.js' %}"></script>
-		<script src="{% static 'js/bootstrap-select.min.js' %}"></script>
-		<script src="{% static 'js/menuzord.js' %}"></script>
+        <!-- revolution slider js -->
+        <script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
+        <script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
 
-		<!-- revolution slider js -->
-		<script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
-		<script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
-		<script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
-
-		<!-- fancy box -->
-		<script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
-		<script src="{% static 'js/isotope.js' %}"></script>
-		<script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
-		<script src="{% static 'js/nouislider.js' %}"></script>
-		<script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
-		<script src="{% static 'js/SmoothScroll.js' %}"></script>
-		<script src="{% static 'js/jquery.appear.js' %}"></script>
-		<script src="{% static 'js/jquery.countTo.js' %}"></script>
-		<script src="{% static 'js/jquery.flexslider.js' %}"></script>
-		<script src="{% static 'js/imagezoom.js' %}"></script>
-		<script src="{% static 'js/bxslider.js' %}"></script>
-		<script id="map-script" src="{% static 'js/default-map.js' %}"></script>
-		<script src="{% static 'js/custom.js' %}"></script>
-    <script type="text/javascript" src="https://js.stripe.com/v2/" charset="utf-8"></script>
-    <script type="text/javascript">
-      function fillShipping(checked) {
+        <!-- fancy box -->
+        <script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
+        <script src="{% static 'js/isotope.js' %}"></script>
+        <script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
+        <script src="{% static 'js/nouislider.js' %}"></script>
+        <script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
+        <script src="{% static 'js/SmoothScroll.js' %}"></script>
+        <script src="{% static 'js/jquery.appear.js' %}"></script>
+        <script src="{% static 'js/jquery.countTo.js' %}"></script>
+        <script src="{% static 'js/jquery.flexslider.js' %}"></script>
+        <script src="{% static 'js/imagezoom.js' %}"></script>
+        <script src="{% static 'js/bxslider.js' %}"></script>
+        <script id="map-script" src="{% static 'js/default-map.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+        <script type="text/javascript" src="https://js.stripe.com/v2/" charset="utf-8"></script>
+        <script type="text/javascript">
+        function fillShipping(checked) {
         if (checked) {
-          document.getElementById('ship_first_name').value = document.getElementById('bill_first_name').value;
-          document.getElementById('ship_last_name').value = document.getElementById('bill_last_name').value;
-          document.getElementById('ship_address').value = document.getElementById('bill_address').value;
-          document.getElementById('ship_city').value = document.getElementById('bill_city').value;
-          document.getElementById('ship_state').value = document.getElementById('bill_state').value;
-          document.getElementById('ship_zip').value = document.getElementById('bill_zip').value;
+        document.getElementById('ship_first_name').value = document.getElementById('bill_first_name').value;
+        document.getElementById('ship_last_name').value = document.getElementById('bill_last_name').value;
+        document.getElementById('ship_address').value = document.getElementById('bill_address').value;
+        document.getElementById('ship_city').value = document.getElementById('bill_city').value;
+        document.getElementById('ship_state').value = document.getElementById('bill_state').value;
+        document.getElementById('ship_zip').value = document.getElementById('bill_zip').value;
         }
         else {
-          document.getElementById('ship_first_name').value = '';
-          document.getElementById('ship_last_name').value = '';
-          document.getElementById('ship_address').value = '';
-          document.getElementById('ship_city').value = '';
-          document.getElementById('ship_state').value = '';
-          document.getElementById('ship_zip').value = '';
+        document.getElementById('ship_first_name').value = '';
+        document.getElementById('ship_last_name').value = '';
+        document.getElementById('ship_address').value = '';
+        document.getElementById('ship_city').value = '';
+        document.getElementById('ship_state').value = '';
+        document.getElementById('ship_zip').value = '';
         }
-      };
+        };
 
-      Stripe.setPublishableKey('pk_test_eUkW9KjYDyZ27llrY7RMGhgl');
+        Stripe.setPublishableKey('pk_test_eUkW9KjYDyZ27llrY7RMGhgl');
 
-      $(function () {
+        $(function () {
         var $form = $('#payment-form');
         $form.submit(function (event) {
-          // Disable the submit button to prevent repeated clicks:
-          $form.find('.thm-btn').prop('disabled', true);
+        // Disable the submit button to prevent repeated clicks:
+        $form.find('.thm-btn').prop('disabled', true);
 
-          // Request a token from Stripe:
-          Stripe.card.createToken($form, stripeResponseHandler);
+        // Request a token from Stripe:
+        Stripe.card.createToken($form, stripeResponseHandler);
 
-          // Prevent the form from being submitted:
-          return false;
+        // Prevent the form from being submitted:
+        return false;
         });
-      });
+        });
 
-      function stripeResponseHandler(status, response) {
+        function stripeResponseHandler(status, response) {
         // Grab the form:
         var $form = $('#payment-form');
 
         if (response.error) { // Problem!
 
-          // Show the errors on the form
-          $form.find('.payment-errors').text(response.error.message);
-          $form.find('.thm-btn').prop('disabled', false); // Re-enable submission
+        // Show the errors on the form
+        $form.find('.payment-errors').text(response.error.message);
+        $form.find('.thm-btn').prop('disabled', false); // Re-enable submission
 
         }
         else { // Token was created!
 
-          // Get the token ID:
-          var token = response.id;
+        // Get the token ID:
+        var token = response.id;
 
-          // Insert the token into the form so it gets submitted to the server:
-          $form.append($('<input type="hidden" name="stripeToken">').val(token));
+        // Insert the token into the form so it gets submitted to the server:
+        $form.append($('<input type="hidden" name="stripeToken">').val(token));
 
-          // Submit the form:
-          $form.get(0).submit();
+        // Submit the form:
+        $form.get(0).submit();
         };
-      };
-    </script>
-  </body>
+        };
+        </script>
+    </body>
 </html>
