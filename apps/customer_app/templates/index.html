@@ -1,220 +1,223 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Silkroad</title>
-    {%load static %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <title>Silkroad</title>
+        {%load static %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
-  </head>
-  <body>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
-    <section class="theme_menu stricky">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="main-logo">
-              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
-            </div>
-          </div>
-          <div class="col-md-8 menu-column">
-            <nav class="menuzord" id="main_menu">
-              {% if logged_user == 1%}
-    						<ul class="menuzord-menu">
-    							<li><a href="/admin">Admin</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user != 0 %}
-                <ul class="menuzord-menu">
-                  <li><a href="/user">User Dashboard</a></li>
-    							<li><a href="{% url 'signout' %}">Log out</a></li>
-                  <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
-    						</ul>
-              {% endif %}
-              {% if logged_user == 0 %}
-    						<ul class="menuzord-menu">
-    							<li><a href="{% url 'login_registration' %}">Log In</a></li>
-    						</ul>
-              {% endif %}
-            </nav>
-          </div>
-          <div class="right-column">
-            <div class="right-area">
-              <div class="nav_side_content">
-                <div class="search_option">
-                  <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
-                  <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
-                    <input type="text" placeholder="Search...">
-                    <button><i class="fa fa-search" aria-hidden="true"></i></button>
-                  </form>
-               </div>
-             </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-		<!-- Main content -->
-    <div class="shop sec-padd">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3 col-sm-12 col-xs-12 sidebar_styleTwo">
-            <div class="wrapper">
-              <div class="sidebar_search">
-                <form action="#">
-                  <input type="text" placeholder="Search....">
-                  <button class="tran3s color1_bg"><i class="fa fa-search" aria-hidden="true"></i></button>
-                </form>
-              </div><br><br>
-              <div class="category-style-one">
-                <div class="theme_inner_title">
-                  <h3>Categories</h3>
-                  <ul class="list">
-                    {% for category in categories %}
-                      <li class="clearfix"><a href="{% url 'browse' category_name=category.name current_page=1 %}">{{category.name}}</a></li>
-                    {% endfor %}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-      		<!-- View Product -->
-          <div class="col-md-9 col-sm-12 col-xs-12">
-            <div class="row">
-              {% for product in products %}
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                  <div class="single-shop-item">
-                    <div class="img-box">
-                      {% for image in product.imageofproduct.all %}
-                        {% if image.main == True %}
-                          <a href="{% url 'product_page' product_id=product.id %}"><img src="{{image.image.url}}" alt=""></a>
-                        {% endif %}
-                      {% endfor %}
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
+        <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
+    </head>
+    <body>
+        <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+        <!-- Navbar -->
+        <section class="theme_menu stricky">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="main-logo">
+                            <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+                        </div>
                     </div>
-                    <div class="content-box">
-                      <div class="inner-box">
-                        <h4><a href="{% url 'product_page' product_id=product.id %}">{{product.name}}</a></h4>
-                        <div class="item-price">
-                          ${{product.price}}
-                        </div>
-                        <div class="">
-                          {{product.inventory}} left in stock
-                        </div>
-                      </div>
-                      <div class="price-box">
-                        <div class="clearfix">
-                          <div class="float_left">
-                            <form class="" action="{% url 'add_to_cart' product_id=product.id %}" method="post">
-                      				{% csrf_token %}
-                              <div class="">
-                                Quantity: <input type="number" step="1" min="1" max="{{product.inventory}}" name="product_quantity" value="1">
-                              </div>
-                              <button><i class="fa fa-shopping-cart"></i>Add To Cart</button>
-                      			</form>
-                          </div>
-                          <div class="float_right">
-                            <div class="rating">
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
+                    <div class="col-md-8 menu-column">
+                        <nav class="menuzord" id="main_menu">
+                            {% if logged_user == 1%}
+                                <ul class="menuzord-menu">
+                                    <li><a href="/admin">Admin</a></li>
+                                </ul>
+                            {% endif %}
+                            {% if logged_user != 0 %}
+                                <ul class="menuzord-menu">
+                                    <li><a href="/user">User Dashboard</a></li>
+                                    <li><a href="{% url 'signout' %}">Log out</a></li>
+                                    <li><a href="{% url 'shopping_cart' %}">Shopping Cart ({{cart_item}})</a></li>
+                                </ul>
+                            {% endif %}
+                            {% if logged_user == 0 %}
+                                <ul class="menuzord-menu">
+                                    <li><a href="{% url 'login_registration' %}">Log In</a></li>
+                                </ul>
+                            {% endif %}
+                        </nav>
+                    </div>
+                    <div class="right-column">
+                        <div class="right-area">
+                            <div class="nav_side_content">
+                                <div class="search_option">
+                                    <button class="search tran3s dropdown-toggle color1_bg" id="searchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    <form action="#" class="dropdown-menu" aria-labelledby="searchDropdown">
+                                        <input type="text" placeholder="Search...">
+                                        <button><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
                             </div>
-                          </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              {% endfor %}
             </div>
-            <ul class="page_pagination center">
-              {% if current_page <= 1 and max_pages > 1 %}
-                <li><a href="{{current_page}}" class="active tran3s">{{current_page}}</a></li>
-                <li><a href="{{next_page}}" class="tran3s">{{next_page}}</a></li>
-                <li><a href="{{next_page}}" class="tran3s"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-              {% endif %}
-              {% if current_page < max_pages and current_page > 1 %}
-                <li><a href="{{prev_page}}" class="tran3s"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                {% if prev_page > 0 %}
-                  <li><a href="{{prev_page}}" class="tran3s">{{prev_page}}</a></li>
-                {% endif %}
-                <li><a href="{{current_page}}" class="active tran3s">{{current_page}}</a></li>
-                {% if next_page <= max_pages %}
-                  <li><a href="{{next_page}}" class="tran3s">{{next_page}}</a></li>
-                {% endif %}
-                <li><a href="{{next_page}}" class="tran3s"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
-              {% endif %}
-              {% if current_page == max_pages and max_pages > 1 %}
-                <li><a href="{{prev_page}}" class="tran3s"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                {% if prev_page > 0 %}
-                  <li><a href="{{prev_page}}" class="tran3s">{{prev_page}}</a></li>
-                {% endif %}
-                <li><a href="#" class="active tran3s">{{current_page}}</a></li>
-                {% if next_page <= max_pages %}
-                  <li><a href="{{next_page}}" class="tran3s">{{next_page}}</a></li>
-                {% endif %}
-              {% endif %}
-            </ul>
-          </div>
+        </section>
+        <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+        <!-- Main content -->
+        <div class="shop sec-padd">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-12 col-xs-12 sidebar_styleTwo">
+                        <div class="wrapper">
+                            <div class="sidebar_search">
+                                <form action="#">
+                                    <input type="text" placeholder="Search....">
+                                    <button class="tran3s color1_bg"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </form>
+                            </div><br><br>
+                            <div class="category-style-one">
+                                <div class="theme_inner_title">
+                                    <h3>Categories</h3>
+                                    <ul class="list">
+                                        {% for category in categories %}
+                                            <li class="clearfix"><a href="{% url 'browse' category_name=category.name current_page=1 %}">{{category.name}}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
+                    <!-- View Product -->
+                    <div class="col-md-9 col-sm-12 col-xs-12">
+                        <div class="row">
+                            {% for product in products %}
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="single-shop-item">
+                                    <div class="img-box">
+                                        {% for image in product.imageofproduct.all %}
+                                            {% if image.main == True %}
+                                                <a href="{% url 'product_page' product_id=product.id %}"><img src="{{image.image.url}}" alt=""></a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="content-box">
+                                        <div class="inner-box">
+                                            <h4><a href="{% url 'product_page' product_id=product.id %}">{{product.name}}</a></h4>
+                                            <div class="item-price">
+                                                ${{product.price}}
+                                            </div>
+                                            <div class="">
+                                                {{product.inventory}} left in stock
+                                            </div>
+                                        </div>
+                                        <div class="price-box">
+                                            <div class="clearfix">
+                                                <div class="float_left">
+                                                    <form class="" action="{% url 'add_to_cart' product_id=product.id %}" method="post">
+                                                        {% csrf_token %}
+                                                        <div class="">
+                                                            Quantity: <input type="number" step="1" min="1" max="{{product.inventory}}" name="product_quantity" value="1">
+                                                        </div>
+                                                        <button><i class="fa fa-shopping-cart"></i>Add To Cart</button>
+                                                    </form>
+                                                </div>
+                                                <div class="float_right">
+                                                    <div class="rating">
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <ul class="page_pagination center">
+                            {% if max_pages == 1 %}
+                                <li><a href="{{current_page}}" class="active tran3s">{{current_page}}</a></li>
+                            {% endif %}
+                            {% if current_page <= 1 and max_pages > 1 %}
+                                <li><a href="{{current_page}}" class="active tran3s">{{current_page}}</a></li>
+                                <li><a href="{{next_page}}" class="tran3s">{{next_page}}</a></li>
+                                <li><a href="{{next_page}}" class="tran3s"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                            {% endif %}
+                            {% if current_page < max_pages and current_page > 1 %}
+                                <li><a href="{{prev_page}}" class="tran3s"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                {% if prev_page > 0 %}
+                                    <li><a href="{{prev_page}}" class="tran3s">{{prev_page}}</a></li>
+                                {% endif %}
+                                <li><a href="{{current_page}}" class="active tran3s">{{current_page}}</a></li>
+                                {% if next_page <= max_pages %}
+                                    <li><a href="{{next_page}}" class="tran3s">{{next_page}}</a></li>
+                                {% endif %}
+                                <li><a href="{{next_page}}" class="tran3s"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                            {% endif %}
+                            {% if current_page == max_pages and max_pages > 1 %}
+                                <li><a href="{{prev_page}}" class="tran3s"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                {% if prev_page > 0 %}
+                                    <li><a href="{{prev_page}}" class="tran3s">{{prev_page}}</a></li>
+                                {% endif %}
+                                    <li><a href="#" class="active tran3s">{{current_page}}</a></li>
+                                {% if next_page <= max_pages %}
+                                    <li><a href="{{next_page}}" class="tran3s">{{next_page}}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- jQuery js -->
-    <script src="{% static 'js/jquery.js' %}"></script>
-    <!-- bootstrap js -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <!-- jQuery ui js -->
-    <script src="{% static 'js/jquery-ui.js' %}"></script>
-    <!-- owl carousel js -->
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <!-- jQuery validation -->
-    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+        <!-- jQuery js -->
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <!-- bootstrap js -->
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <!-- jQuery ui js -->
+        <script src="{% static 'js/jquery-ui.js' %}"></script>
+        <!-- owl carousel js -->
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <!-- jQuery validation -->
+        <script src="{% static 'js/jquery.validate.min.js' %}"></script>
 
-    <!-- mixit up -->
-    <script src="{% static 'js/wow.js' %}"></script>
-    <script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
-    <script src="{% static 'js/jquery.fitvids.js' %}"></script>
-    <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
-    <script src="{% static 'js/menuzord.js' %}"></script>
+        <!-- mixit up -->
+        <script src="{% static 'js/wow.js' %}"></script>
+        <script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
+        <script src="{% static 'js/jquery.fitvids.js' %}"></script>
+        <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+        <script src="{% static 'js/menuzord.js' %}"></script>
 
-    <!-- revolution slider js -->
-    <script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
-    <script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
-    <script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
+        <!-- revolution slider js -->
+        <script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
+        <script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.actions.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.carousel.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.kenburn.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.layeranimation.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.migration.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.navigation.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.parallax.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.slideanims.min.js' %}"></script>
+        <script src="{% static 'js/revolution.extension.video.min.js' %}"></script>
 
-    <!-- fancy box -->
-    <script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
-    <script src="{% static 'js/isotope.js' %}"></script>
-    <script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
-    <script src="{% static 'js/nouislider.js' %}"></script>
-    <script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
-    <script src="{% static 'js/SmoothScroll.js' %}"></script>
-    <script src="{% static 'js/jquery.appear.js' %}"></script>
-    <script src="{% static 'js/jquery.countTo.js' %}"></script>
-    <script src="{% static 'js/jquery.flexslider.js' %}"></script>
-    <script src="{% static 'js/imagezoom.js' %}"></script>
-    <script src="{% static 'js/bxslider.js' %}"></script>
-    <script id="map-script" src="{% static 'js/default-map.js' %}"></script>
-    <script src="{% static 'js/custom.js' %}"></script>
-  </body>
+        <!-- fancy box -->
+        <script src="{% static 'js/jquery.fancybox.pack.js' %}"></script>
+        <script src="{% static 'js/isotope.js' %}"></script>
+        <script src="{% static 'js/jquery.polyglot.language.switcher.js' %}"></script>
+        <script src="{% static 'js/nouislider.js' %}"></script>
+        <script src="{% static 'js/jquery.bootstrap-touchspin.js' %}"></script>
+        <script src="{% static 'js/SmoothScroll.js' %}"></script>
+        <script src="{% static 'js/jquery.appear.js' %}"></script>
+        <script src="{% static 'js/jquery.countTo.js' %}"></script>
+        <script src="{% static 'js/jquery.flexslider.js' %}"></script>
+        <script src="{% static 'js/imagezoom.js' %}"></script>
+        <script src="{% static 'js/bxslider.js' %}"></script>
+        <script id="map-script" src="{% static 'js/default-map.js' %}"></script>
+        <script src="{% static 'js/custom.js' %}"></script>
+    </body>
 </html>
