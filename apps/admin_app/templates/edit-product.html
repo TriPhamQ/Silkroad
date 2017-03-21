@@ -5,41 +5,41 @@
 		<title>Products Manager</title>
 		<link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/d/d1/Toad_3D_Land.png">
 		{%load static %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
+		<link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
+		<link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
 	</head>
 	<body>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
-    <section class="theme_menu stricky">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="main-logo">
-              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
-            </div>
-          </div>
-          <div class="col-md-8 menu-column">
-            <nav class="menuzord" id="main_menu">
-  						<ul class="menuzord-menu">
-                <li><a href="/admin">Home</a></li>
-      					<li><a href="/products">Manage products</a></li>
-                <li><a href="/orders">Manage orders</a></li>
-                <li><a href="{%url 'signout' %}">Log out</a></li>
-  						</ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </section>    
+		<!-- Navbar -->
+		<section class="theme_menu stricky">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="main-logo">
+							<a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+						</div>
+					</div>
+					<div class="col-md-8 menu-column">
+						<nav class="menuzord" id="main_menu">
+							<ul class="menuzord-menu">
+								<li><a href="/admin">Home</a></li>
+								<li><a href="/products">Manage products</a></li>
+								<li><a href="/orders">Manage orders</a></li>
+								<li><a href="{%url 'signout' %}">Log out</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</section>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- Edit Product -->
 		<div class="">

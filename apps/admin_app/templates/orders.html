@@ -5,41 +5,41 @@
 		<title>Orders Manager</title>
 		<link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/d/d1/Toad_3D_Land.png">
 		{%load static %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
+		<link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
+		<link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
 	</head>
 	<body>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
-    <section class="theme_menu stricky">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="main-logo">
-              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
-            </div>
-          </div>
-          <div class="col-md-8 menu-column">
-            <nav class="menuzord" id="main_menu">
-  						<ul class="menuzord-menu">
-                <li><a href="/admin">Home</a></li>
-      					<li><a href="/products">Manage products</a></li>
-                <li><a href="/orders">Manage orders</a></li>
-                <li><a href="{%url 'signout' %}">Log out</a></li>
-  						</ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </section>
+		<!-- Navbar -->
+		<section class="theme_menu stricky">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="main-logo">
+						<a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+					</div>
+				</div>
+				<div class="col-md-8 menu-column">
+					<nav class="menuzord" id="main_menu">
+						<ul class="menuzord-menu">
+							<li><a href="/admin">Home</a></li>
+							<li><a href="/products">Manage products</a></li>
+							<li><a href="/orders">Manage orders</a></li>
+							<li><a href="{%url 'signout' %}">Log out</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		</section>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- Orders -->
 		<section class="sec-padd-top">
@@ -68,11 +68,11 @@
 										<td>
 											{% if order.status != "Cancelled" and order.status != "Refunded" %}
 												<select class="order_status" name="status">
-								          <option selected='selected' value="{{order.status}}">{{order.status}}</option>
-								          <option value="Order in Process">Order in Process</option>
-								          <option value="Shipped">Shipped</option>
-								          <option value="Refunded">Refunded</option>
-								        </select>
+													<option selected='selected' value="{{order.status}}">{{order.status}}</option>
+													<option value="Order in Process">Order in Process</option>
+													<option value="Shipped">Shipped</option>
+													<option value="Refunded">Refunded</option>
+												</select>
 												<input type="hidden" value="{{order.id}}">
 											{% endif %}
 											{% if order.status == "Cancelled" or order.status == "Refunded" %}
@@ -87,7 +87,6 @@
 				</div>
 			</div>
 		</section>
-
 		<!-- jQuery js -->
 		<script src="{% static 'js/jquery.js' %}"></script>
 		<!-- bootstrap js -->
@@ -134,28 +133,28 @@
 		<script id="map-script" src="{% static 'js/default-map.js' %}"></script>
 		<script src="{% static 'js/custom.js' %}"></script>
 		<script type="text/javascript">
-			$(document).ready(function () {
-				$(".order_status").change(function (e) {
-					// e.preventDefault();
-					if (confirm("Are you sure?")) {
-						$( "select option:selected" )
-							var order_id = $(this).siblings('input').val()
-							var status = $(this).val()
-							console.log(status)
+		$(document).ready(function () {
+			$(".order_status").change(function (e) {
+				// e.preventDefault();
+				if (confirm("Are you sure?")) {
+					$( "select option:selected" )
+					var order_id = $(this).siblings('input').val()
+					var status = $(this).val()
+					console.log(status)
+				}
+				$.ajax({
+					type: 'GET',
+					url: '{% url 'order_status_update' %}',
+					data: {
+						'status': status,
+						'order_id': order_id
 					}
-					$.ajax({
-							type: 'GET',
-							url: '{% url 'order_status_update' %}',
-							data: {
-								'status': status,
-								'order_id': order_id
-							}
-					});
-					if (status == "Refunded") {
-						$("select").prop("disabled", true);
-					}
-				})
-			});
+				});
+				if (status == "Refunded") {
+					$("select").prop("disabled", true);
+				}
+			})
+		});
 		</script>
 	</body>
 </html>

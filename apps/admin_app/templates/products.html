@@ -5,41 +5,41 @@
 		<title>Products Manager</title>
 		<link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/d/d1/Toad_3D_Land.png">
 		{%load static %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
-    <link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
+		<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon/apple-touch-icon.png' %}">
+		<link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-32x32.png' %}" sizes="32x32">
+		<link rel="icon" type="image/png" href="{% static 'images/fav-icon/favicon-16x16.png' %}" sizes="16x16">
 	</head>
 	<body>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
-    <!-- Navbar -->
-    <section class="theme_menu stricky">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="main-logo">
-              <a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
-            </div>
-          </div>
-          <div class="col-md-8 menu-column">
-            <nav class="menuzord" id="main_menu">
-  						<ul class="menuzord-menu">
-                <li><a href="/admin">Home</a></li>
-      					<li><a href="/products">Manage products</a></li>
-                <li><a href="/orders">Manage orders</a></li>
-                <li><a href="{%url 'signout' %}">Log out</a></li>
-  						</ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </section>
+		<!-- Navbar -->
+		<section class="theme_menu stricky">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="main-logo">
+							<a href="/" class="brand-logo center"><img src="{% static 'images/logo/chRMc.png' %}" height="50" alt=""></a>
+						</div>
+					</div>
+					<div class="col-md-8 menu-column">
+						<nav class="menuzord" id="main_menu">
+							<ul class="menuzord-menu">
+								<li><a href="/admin">Home</a></li>
+								<li><a href="/products">Manage products</a></li>
+								<li><a href="/orders">Manage orders</a></li>
+								<li><a href="{%url 'signout' %}">Log out</a></li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</section>
 		<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 		<!-- Add Product -->
 		<div class="container">
@@ -77,8 +77,8 @@
 								<input type="file" name="image_file_main" accept="image/*">
 							</div>
 							<!-- <div class="file-path-wrapper">
-				        <input class="file-path validate" type="text">
-				      </div> -->
+								<input class="file-path validate" type="text">
+							</div> -->
 						</div>
 						<div class="">
 							<div class="">
@@ -86,8 +86,8 @@
 								<input type="file" name="image_file" accept="image/*" multiple>
 							</div>
 							<!-- <div class="file-path-wrapper">
-				        <input class="file-path validate" type="text">
-				      </div> -->
+								<input class="file-path validate" type="text">
+							</div> -->
 						</div>
 						<input class="" type="submit" name="" value="Add Product">
 					</fieldset>
@@ -96,29 +96,29 @@
 			<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 			<!-- Show Products -->
 			<div class="">
-					<h3>Ongoing Product:</h3>
-					<table class="">
-						<thead>
-							<tr>
-								<th>Main Image</th>
-								<th>Name</th>
-								<th>Description</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Action</th>
-								<th>Extra Images</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for product in products %}
+				<h3>Ongoing Product:</h3>
+				<table class="">
+					<thead>
+						<tr>
+							<th>Main Image</th>
+							<th>Name</th>
+							<th>Description</th>
+							<th>Price</th>
+							<th>Quantity</th>
+							<th>Action</th>
+							<th>Extra Images</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for product in products %}
 							<tr>
 								{% if product.ongoing == True %}
 									<td>
-									{% for image in product.imageofproduct.all %}
-										{% if image.main == True %}
-											<img src="{{image.image.url}}" height="100" width="100" alt="">
-										{% endif %}
-									{% endfor %}
+										{% for image in product.imageofproduct.all %}
+											{% if image.main == True %}
+												<img src="{{image.image.url}}" height="100" width="100" alt="">
+											{% endif %}
+										{% endfor %}
 									</td>
 									<td>{{product.name}}</td>
 									<td>{{product.description}}</td>
@@ -135,40 +135,40 @@
 										</form>
 									</td>
 									<td>
-									{% for image in product.imageofproduct.all %}
-										{% if image.main == False %}
-											<img src="{{image.image.url}}" height="100" width="100" alt="">
-										{% endif %}
-									{% endfor %}
+										{% for image in product.imageofproduct.all %}
+											{% if image.main == False %}
+												<img src="{{image.image.url}}" height="100" width="100" alt="">
+											{% endif %}
+										{% endfor %}
 									</td>
-									{% endif %}
+								{% endif %}
 							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-					<h3>Not Active Product</h3>
-					<table class="">
-						<thead>
-							<tr>
-								<th>Main Image</th>
-								<th>Name</th>
-								<th>Description</th>
-								<th>Price</th>
-								<th>Quantity</th>
-								<th>Action</th>
-								<th>Extra Images</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for product in products %}
+						{% endfor %}
+					</tbody>
+				</table>
+				<h3>Not Active Product</h3>
+				<table class="">
+					<thead>
+						<tr>
+							<th>Main Image</th>
+							<th>Name</th>
+							<th>Description</th>
+							<th>Price</th>
+							<th>Quantity</th>
+							<th>Action</th>
+							<th>Extra Images</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for product in products %}
 							<tr>
 								{% if product.ongoing == False %}
 									<td>
-									{% for image in product.imageofproduct.all %}
-										{% if image.main == True %}
-											<img src="{{image.image.url}}" height="100" width="100" alt="">
-										{% endif %}
-									{% endfor %}
+										{% for image in product.imageofproduct.all %}
+											{% if image.main == True %}
+												<img src="{{image.image.url}}" height="100" width="100" alt="">
+											{% endif %}
+										{% endfor %}
 									</td>
 									<td>{{product.name}}</td>
 									<td>{{product.description}}</td>
@@ -185,17 +185,17 @@
 										</form>
 									</td>
 									<td>
-									{% for image in product.imageofproduct.all %}
-										{% if image.main == False %}
-											<img src="{{image.image.url}}" height="100" width="100" alt="">
-										{% endif %}
-									{% endfor %}
+										{% for image in product.imageofproduct.all %}
+											{% if image.main == False %}
+												<img src="{{image.image.url}}" height="100" width="100" alt="">
+											{% endif %}
+										{% endfor %}
 									</td>
-									{% endif %}
+								{% endif %}
 							</tr>
-							{% endfor %}
-						</tbody>
-					</table>
+						{% endfor %}
+					</tbody>
+				</table>
 			</div>
 			<!-- =  =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   =   = -->
 			<!-- Clear DB -->
@@ -206,7 +206,6 @@
 				</form>
 			</div>
 		</div>
-
 		<!-- jQuery js -->
 		<script src="{% static 'js/jquery.js' %}"></script>
 		<!-- bootstrap js -->
